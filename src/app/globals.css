@@ -51,3 +51,14 @@ a:visited {
 .oswald {
   font-family: 'Oswald', sans-serif;
 }
+
+/* Mobile */
+@media (max-width: 680px) {
+  html { font-size: 13px; }
+
+  /* Featured sponsor block */
+  .featured-sponsor { padding: 12px 10px !important; }
+
+  /* Category/business pages */
+  .page-main { padding: 16px 12px 40px !important; }
+}

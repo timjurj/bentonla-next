@@ -169,17 +169,28 @@ export default function HomePage() {
           serves all of Bossier Parish.
         </div>
 
-        {/* 3 column grid */}
-        <div style={{
-          display: "grid",
-          gridTemplateColumns: "1fr 1px 1fr 1px 1fr",
-          gap: 0,
-        }}>
-          <div style={{ padding: "0 16px 16px 0" }}>
+        {/* Responsive grid */}
+        <style>{`
+          .main-grid {
+            display: grid;
+            grid-template-columns: 1fr 1px 1fr 1px 1fr;
+          }
+          .col-divider { background: var(--border); margin: 12px 0; }
+          .col-1 { padding: 0 16px 16px 0; }
+          .col-2 { padding: 0 16px; }
+          .col-3 { padding: 0 0 16px 16px; }
+          @media (max-width: 680px) {
+            .main-grid { grid-template-columns: 1fr; }
+            .col-divider { display: none; }
+            .col-1, .col-2, .col-3 { padding: 0 0 8px 0; }
+          }
+        `}</style>
+        <div className="main-grid">
+          <div className="col-1">
             {col1Cats.map((s) => <ColSection key={s} catSlug={s} />)}
           </div>
-          <div style={{ background: "var(--border)", margin: "12px 0" }} />
-          <div style={{ padding: "0 16px" }}>
+          <div className="col-divider" />
+          <div className="col-2">
             <div style={{
               textAlign: "center",
               borderBottom: "2px solid #111",
@@ -214,8 +225,8 @@ export default function HomePage() {
               </Link>
             </div>
           </div>
-          <div style={{ background: "var(--border)", margin: "12px 0" }} />
-          <div style={{ padding: "0 0 16px 16px" }}>
+          <div className="col-divider" />
+          <div className="col-3">
             {col3Cats.map((s) => <ColSection key={s} catSlug={s} />)}
           </div>
         </div>

@@ -82,6 +82,8 @@ export default function Masthead() {
         fontSize: 11,
         letterSpacing: "1px",
         textTransform: "uppercase",
+        overflowX: "auto",
+        whiteSpace: "nowrap",
       }}>
         {[
           { slug: "home-services", label: "Home Services" },
