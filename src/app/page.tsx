@@ -174,12 +174,12 @@ export default function HomePage() {
         <SearchDirectory businesses={businesses} categories={categories} />
 
         {/* Responsive grid */}
-        <div className="grid grid-cols-1 md:grid-cols-[1fr_1px_1fr_1px_1fr]">
-          <div className="pb-4 md:pr-4">
+        <div className="dir-grid">
+          <div className="dir-col-1">
             {col1Cats.map((s) => <ColSection key={s} catSlug={s} />)}
           </div>
-          <div className="hidden md:block bg-gray-300 my-3" />
-          <div className="pb-4 md:px-4">
+          <div className="dir-divider" />
+          <div className="dir-col-2">
             <div style={{
               textAlign: "center",
               borderBottom: "2px solid #111",
@@ -214,8 +214,8 @@ export default function HomePage() {
               </Link>
             </div>
           </div>
-          <div className="hidden md:block bg-gray-300 my-3" />
-          <div className="pb-4 md:pl-4">
+          <div className="dir-divider" />
+          <div className="dir-col-3">
             {col3Cats.map((s) => <ColSection key={s} catSlug={s} />)}
           </div>
         </div>

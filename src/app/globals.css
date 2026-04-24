@@ -55,10 +55,25 @@ a:visited {
 /* Mobile */
 @media (max-width: 680px) {
   html { font-size: 13px; }
+}
 
-  /* Featured sponsor block */
-  .featured-sponsor { padding: 12px 10px !important; }
+/* 3-column directory grid */
+.dir-grid {
+  display: grid;
+  grid-template-columns: 1fr 1px 1fr 1px 1fr;
+}
+.dir-divider {
+  background: #bbbbbb;
+  margin: 12px 0;
+}
+.dir-col-1 { padding: 0 16px 16px 0; }
+.dir-col-2 { padding: 0 16px 16px; }
+.dir-col-3 { padding: 0 0 16px 16px; }
 
-  /* Category/business pages */
-  .page-main { padding: 16px 12px 40px !important; }
+@media (max-width: 767px) {
+  .dir-grid {
+    grid-template-columns: 1fr;
+  }
+  .dir-divider { display: none; }
+  .dir-col-1, .dir-col-2, .dir-col-3 { padding: 0 0 8px 0; }
 }
