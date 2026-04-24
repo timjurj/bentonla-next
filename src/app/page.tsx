@@ -4,6 +4,7 @@ import Masthead from "@/components/Masthead";
 import Footer from "@/components/Footer";
 import BusinessCard from "@/components/BusinessCard";
 import SearchDirectory from "@/components/SearchDirectory";
+import CommunitySection from "@/components/CommunitySection";
 import businessData from "@/data/businesses.json";
 import { categories } from "@/data/categories";
 import type { Business } from "@/types/business";
@@ -169,6 +170,9 @@ export default function HomePage() {
           </a>{" "}
           serves all of Bossier Parish.
         </div>
+
+        {/* Community Board */}
+        <CommunitySection />
 
         {/* Search */}
         <SearchDirectory businesses={businesses} categories={categories} />

@@ -1,0 +1,37 @@
+[
+  {
+    "id": "bs-1",
+    "title": "2019 Ford F-150 XLT",
+    "price": "$28,500",
+    "condition": "Used",
+    "link": "#"
+  },
+  {
+    "id": "bs-2",
+    "title": "3BR/2BA Home — Benton",
+    "price": "$224,000",
+    "condition": "For Sale",
+    "link": "#"
+  },
+  {
+    "id": "bs-3",
+    "title": "John Deere Riding Mower",
+    "price": "$1,200",
+    "condition": "Used",
+    "link": "#"
+  },
+  {
+    "id": "bs-4",
+    "title": "Kids Bunk Bed Set",
+    "price": "$150",
+    "condition": "Good Condition",
+    "link": "#"
+  },
+  {
+    "id": "bs-5",
+    "title": "Commercial Pressure Washer",
+    "price": "$800",
+    "condition": "Like New",
+    "link": "#"
+  }
+]

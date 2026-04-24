@@ -1,0 +1,37 @@
+[
+  {
+    "id": "job-1",
+    "title": "Registered Nurse — ICU",
+    "company": "Willis-Knighton Health",
+    "type": "Full-Time",
+    "link": "#"
+  },
+  {
+    "id": "job-2",
+    "title": "Warehouse Associate",
+    "company": "Amazon — Bossier City",
+    "type": "Full-Time",
+    "link": "#"
+  },
+  {
+    "id": "job-3",
+    "title": "Elementary School Teacher",
+    "company": "Bossier Parish Schools",
+    "type": "Full-Time",
+    "link": "#"
+  },
+  {
+    "id": "job-4",
+    "title": "Residential Cleaning Tech",
+    "company": "Gleaux Cleaning LLC",
+    "type": "Part-Time",
+    "link": "https://gleauxcleaning.com?utm_source=bentonla&utm_medium=jobs"
+  },
+  {
+    "id": "job-5",
+    "title": "Real Estate Agent",
+    "company": "Keller Williams NW LA",
+    "type": "Commission",
+    "link": "#"
+  }
+]

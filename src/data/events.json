@@ -1,0 +1,37 @@
+[
+  {
+    "id": "event-1",
+    "title": "Bossier Parish Heritage Festival",
+    "date": "May 3, 2025",
+    "location": "Downtown Benton",
+    "link": "#"
+  },
+  {
+    "id": "event-2",
+    "title": "Benton Farmers Market Opens",
+    "date": "Every Saturday, 8AM",
+    "location": "Town Square, Benton",
+    "link": "#"
+  },
+  {
+    "id": "event-3",
+    "title": "Bossier Parish Library Book Sale",
+    "date": "May 10, 2025",
+    "location": "Bossier Parish Library",
+    "link": "#"
+  },
+  {
+    "id": "event-4",
+    "title": "Benton High School Graduation",
+    "date": "May 17, 2025",
+    "location": "Benton High School",
+    "link": "#"
+  },
+  {
+    "id": "event-5",
+    "title": "North Bossier Community Yard Sale",
+    "date": "May 24, 2025",
+    "location": "Benton Community Center",
+    "link": "#"
+  }
+]
