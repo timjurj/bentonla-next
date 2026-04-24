@@ -1,65 +1,227 @@
-import Image from "next/image";
+import type { Metadata } from "next";
+import Link from "next/link";
+import Masthead from "@/components/Masthead";
+import Footer from "@/components/Footer";
+import BusinessCard from "@/components/BusinessCard";
+import businessData from "@/data/businesses.json";
+import { categories } from "@/data/categories";
+import type { Business } from "@/types/business";
 
-export default function Home() {
+const businesses = businessData as Business[];
+
+export const metadata: Metadata = {
+  title: "BentonLA.com — Benton, Louisiana Local Business Directory",
+  description:
+    "The complete local business directory for Benton, Louisiana and Bossier Parish. Find restaurants, home services, real estate, churches, cleaning, and more.",
+  alternates: { canonical: "https://www.bentonla.com" },
+  openGraph: {
+    title: "BentonLA.com — Benton, Louisiana Business Directory",
+    description: "The complete guide to businesses in Benton, LA and Bossier Parish.",
+    url: "https://www.bentonla.com",
+  },
+};
+
+const col1Cats = ["home-services", "real-estate"];
+const col2Cats = ["restaurants", "health", "automotive"];
+const col3Cats = ["churches", "education", "government"];
+
+function ColSection({ catSlug }: { catSlug: string }) {
+  const cat = categories.find((c) => c.slug === catSlug);
+  if (!cat) return null;
+  const bizList = businesses
+    .filter((b) => b.category === catSlug && b.is_active)
+    .sort((a, b) => {
+      const order = { featured: 0, premium: 1, standard: 2, free: 3 };
+      return order[a.tier] - order[b.tier];
+    });
+
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
+    <div style={{ marginBottom: 8 }}>
+      <h2 style={{
+        fontFamily: "'Oswald', sans-serif",
+        fontSize: 11,
+        fontWeight: 700,
+        letterSpacing: 3,
+        textTransform: "uppercase",
+        color: "var(--ink-mid)",
+        borderBottom: "1px solid var(--border)",
+        paddingBottom: 5,
+        marginBottom: 10,
+        marginTop: 16,
+      }}>
+        <Link href={`/${catSlug}`} style={{ color: "var(--ink-mid)" }}>
+          {cat.icon} {cat.name} — Benton, LA
+        </Link>
+      </h2>
+      {bizList.map((biz, i) => (
+        <div key={biz.id}>
+          <BusinessCard biz={biz} />
+          {i < bizList.length - 1 && (
+            <hr style={{ border: "none", borderTop: "1px solid #ccc", margin: "8px 0" }} />
+          )}
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
-      </main>
+      ))}
+      <div style={{ marginTop: 8 }}>
+        <Link href={`/${catSlug}`} style={{ fontSize: 11, color: "var(--red)" }}>
+          » See all {cat.name} →
+        </Link>
+      </div>
     </div>
+  );
+}
+
+export default function HomePage() {
+  const schema = {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    name: "BentonLA.com",
+    url: "https://www.bentonla.com",
+    description: "The complete local business directory for Benton, Louisiana and Bossier Parish",
+    potentialAction: {
+      "@type": "SearchAction",
+      target: "https://www.bentonla.com/?q={search_term_string}",
+      "query-input": "required name=search_term_string",
+    },
+  };
+
+  return (
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
+      />
+      <Masthead />
+
+      <main style={{ maxWidth: 980, margin: "0 auto", padding: "0 12px" }}>
+
+        {/* Featured Sponsor */}
+        <div style={{
+          textAlign: "center",
+          border: "2px solid #111",
+          padding: "14px 12px",
+          margin: "16px 0 14px",
+          background: "#fff",
+        }}>
+          <p style={{
+            fontFamily: "'Oswald', sans-serif",
+            fontSize: 9,
+            letterSpacing: 3,
+            textTransform: "uppercase",
+            color: "#999",
+            marginBottom: 4,
+          }}>★ Featured Sponsor ★</p>
+          <p style={{
+            fontFamily: "'Oswald', sans-serif",
+            fontSize: 26,
+            fontWeight: 700,
+            letterSpacing: 2,
+            textTransform: "uppercase",
+          }}>
+            <Link href="/business/gleaux-cleaning" style={{ color: "#111" }}>
+              Gleaux Cleaning LLC
+            </Link>
+          </p>
+          <p style={{ fontSize: 12, color: "#555", marginTop: 4 }}>
+            Benton&apos;s Premier Cleaning Service — Residential &amp; Commercial
+          </p>
+          <a href="https://gleauxcleaning.com?utm_source=bentonla&utm_medium=directory&utm_campaign=featured"
+            target="_blank" rel="noopener"
+            style={{
+              display: "inline-block",
+              marginTop: 10,
+              fontFamily: "'Oswald', sans-serif",
+              fontSize: 11,
+              fontWeight: 700,
+              letterSpacing: 2,
+              textTransform: "uppercase",
+              background: "#111",
+              color: "#f5f2eb",
+              padding: "6px 16px",
+              textDecoration: "none",
+            }}>
+            Get a Free Quote »
+          </a>
+        </div>
+
+        {/* New to Benton box */}
+        <div style={{
+          border: "1px solid var(--border)",
+          padding: "10px 12px",
+          marginBottom: 16,
+          background: "#fffef8",
+          fontSize: 12,
+          lineHeight: 1.6,
+          color: "#444",
+        }}>
+          <strong style={{
+            fontFamily: "'Oswald', sans-serif",
+            fontSize: 13,
+            letterSpacing: 1,
+            textTransform: "uppercase",
+            display: "block",
+            marginBottom: 4,
+          }}>🏡 New to Benton, LA?</strong>
+          Just moved in? Get your home professionally cleaned before you unpack.{" "}
+          <a href="https://gleauxcleaning.com?utm_source=bentonla&utm_medium=directory&utm_campaign=newcomer"
+            target="_blank" rel="noopener">
+            Gleaux Cleaning
+          </a>{" "}
+          serves all of Bossier Parish.
+        </div>
+
+        {/* 3 column grid */}
+        <div style={{
+          display: "grid",
+          gridTemplateColumns: "1fr 1px 1fr 1px 1fr",
+          gap: 0,
+        }}>
+          <div style={{ padding: "0 16px 16px 0" }}>
+            {col1Cats.map((s) => <ColSection key={s} catSlug={s} />)}
+          </div>
+          <div style={{ background: "var(--border)", margin: "12px 0" }} />
+          <div style={{ padding: "0 16px" }}>
+            <div style={{
+              textAlign: "center",
+              borderBottom: "2px solid #111",
+              paddingBottom: 12,
+              marginBottom: 14,
+            }}>
+              <p style={{ fontFamily: "'Oswald', sans-serif", fontSize: 11, letterSpacing: 3, textTransform: "uppercase", color: "#999", marginBottom: 2 }}>
+                Bossier Parish, Louisiana
+              </p>
+              <p style={{ fontFamily: "'Oswald', sans-serif", fontSize: 20, fontWeight: 700, letterSpacing: 2, textTransform: "uppercase" }}>
+                THE COMPLETE GUIDE<br />TO BENTON, LA
+              </p>
+              <p style={{ fontSize: 11, color: "#888", marginTop: 6 }}>
+                Updated Weekly · Free Listings Available
+              </p>
+            </div>
+            {col2Cats.map((s) => <ColSection key={s} catSlug={s} />)}
+            <div style={{
+              textAlign: "center",
+              borderTop: "1px dashed var(--border)",
+              padding: "12px 0",
+              fontSize: 12,
+              marginTop: 8,
+            }}>
+              <p style={{ marginBottom: 6, color: "#888" }}>Own a Benton, LA business?</p>
+              <Link href="/add-listing" style={{ fontFamily: "'Oswald', sans-serif", fontSize: 11, letterSpacing: 2, textTransform: "uppercase" }}>
+                » Add Your Free Listing «
+              </Link>
+              <span style={{ margin: "0 8px", color: "var(--ink-xlight)" }}>|</span>
+              <Link href="/advertise" style={{ fontFamily: "'Oswald', sans-serif", fontSize: 11, letterSpacing: 2, textTransform: "uppercase", color: "var(--red)" }}>
+                » Go Premium — $49/mo «
+              </Link>
+            </div>
+          </div>
+          <div style={{ background: "var(--border)", margin: "12px 0" }} />
+          <div style={{ padding: "0 0 16px 16px" }}>
+            {col3Cats.map((s) => <ColSection key={s} catSlug={s} />)}
+          </div>
+        </div>
+
+      </main>
+      <Footer />
+    </>
   );
 }
