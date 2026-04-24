@@ -170,27 +170,12 @@ export default function HomePage() {
         </div>
 
         {/* Responsive grid */}
-        <style>{`
-          .main-grid {
-            display: grid;
-            grid-template-columns: 1fr 1px 1fr 1px 1fr;
-          }
-          .col-divider { background: var(--border); margin: 12px 0; }
-          .col-1 { padding: 0 16px 16px 0; }
-          .col-2 { padding: 0 16px; }
-          .col-3 { padding: 0 0 16px 16px; }
-          @media (max-width: 680px) {
-            .main-grid { grid-template-columns: 1fr; }
-            .col-divider { display: none; }
-            .col-1, .col-2, .col-3 { padding: 0 0 8px 0; }
-          }
-        `}</style>
-        <div className="main-grid">
-          <div className="col-1">
+        <div className="grid grid-cols-1 md:grid-cols-[1fr_1px_1fr_1px_1fr]">
+          <div className="pb-4 md:pr-4">
             {col1Cats.map((s) => <ColSection key={s} catSlug={s} />)}
           </div>
-          <div className="col-divider" />
-          <div className="col-2">
+          <div className="hidden md:block bg-gray-300 my-3" />
+          <div className="pb-4 md:px-4">
             <div style={{
               textAlign: "center",
               borderBottom: "2px solid #111",
@@ -225,8 +210,8 @@ export default function HomePage() {
               </Link>
             </div>
           </div>
-          <div className="col-divider" />
-          <div className="col-3">
+          <div className="hidden md:block bg-gray-300 my-3" />
+          <div className="pb-4 md:pl-4">
             {col3Cats.map((s) => <ColSection key={s} catSlug={s} />)}
           </div>
         </div>
