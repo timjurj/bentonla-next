@@ -3,6 +3,7 @@ import Link from "next/link";
 import Masthead from "@/components/Masthead";
 import Footer from "@/components/Footer";
 import BusinessCard from "@/components/BusinessCard";
+import SearchDirectory from "@/components/SearchDirectory";
 import businessData from "@/data/businesses.json";
 import { categories } from "@/data/categories";
 import type { Business } from "@/types/business";
@@ -168,6 +169,9 @@ export default function HomePage() {
           </a>{" "}
           serves all of Bossier Parish.
         </div>
+
+        {/* Search */}
+        <SearchDirectory businesses={businesses} categories={categories} />
 
         {/* Responsive grid */}
         <div className="grid grid-cols-1 md:grid-cols-[1fr_1px_1fr_1px_1fr]">
