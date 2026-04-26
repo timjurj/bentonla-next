@@ -5,11 +5,9 @@ import Footer from "@/components/Footer";
 import BusinessCard from "@/components/BusinessCard";
 import SearchDirectory from "@/components/SearchDirectory";
 import CommunitySection from "@/components/CommunitySection";
-import businessData from "@/data/businesses.json";
+import { getBusinesses } from "@/lib/data";
 import { categories } from "@/data/categories";
 import type { Business } from "@/types/business";
-
-const businesses = businessData as Business[];
 
 export const metadata: Metadata = {
   title: "BentonLA.com — Benton, Louisiana Local Business Directory",
@@ -23,19 +21,15 @@ export const metadata: Metadata = {
   },
 };
 
-const col1Cats = ["home-services", "real-estate"];
-const col2Cats = ["restaurants", "health", "automotive"];
-const col3Cats = ["churches", "education", "government"];
+const col1Cats = ["home-services", "plumbers", "electricians", "hvac"];
+const col2Cats = ["restaurants", "health", "dentists", "automotive"];
+const col3Cats = ["daycares", "veterinarians", "hair-salons", "insurance", "churches", "education", "government"];
 
-function ColSection({ catSlug }: { catSlug: string }) {
+function ColSection({ catSlug, businesses }: { catSlug: string; businesses: Business[] }) {
   const cat = categories.find((c) => c.slug === catSlug);
   if (!cat) return null;
   const bizList = businesses
-    .filter((b) => b.category === catSlug && b.is_active)
-    .sort((a, b) => {
-      const order = { featured: 0, premium: 1, standard: 2, free: 3 };
-      return order[a.tier] - order[b.tier];
-    })
+    .filter((b) => b.category === catSlug)
     .slice(0, 5);
 
   return (
@@ -73,7 +67,9 @@ function ColSection({ catSlug }: { catSlug: string }) {
   );
 }
 
-export default function HomePage() {
+export default async function HomePage() {
+  const businesses = await getBusinesses();
+
   const schema = {
     "@context": "https://schema.org",
     "@type": "WebSite",
@@ -181,7 +177,7 @@ export default function HomePage() {
         {/* Responsive grid */}
         <div className="dir-grid">
           <div className="dir-col-1">
-            {col1Cats.map((s) => <ColSection key={s} catSlug={s} />)}
+            {col1Cats.map((s) => <ColSection key={s} catSlug={s} businesses={businesses} />)}
           </div>
           <div className="dir-divider" />
           <div className="dir-col-2">
@@ -201,7 +197,7 @@ export default function HomePage() {
                 Updated Weekly · Free Listings Available
               </p>
             </div>
-            {col2Cats.map((s) => <ColSection key={s} catSlug={s} />)}
+            {col2Cats.map((s) => <ColSection key={s} catSlug={s} businesses={businesses} />)}
             <div style={{
               textAlign: "center",
               borderTop: "1px dashed var(--border)",
@@ -221,7 +217,7 @@ export default function HomePage() {
           </div>
           <div className="dir-divider" />
           <div className="dir-col-3">
-            {col3Cats.map((s) => <ColSection key={s} catSlug={s} />)}
+            {col3Cats.map((s) => <ColSection key={s} catSlug={s} businesses={businesses} />)}
           </div>
         </div>
 

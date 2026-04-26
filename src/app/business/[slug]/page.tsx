@@ -3,14 +3,12 @@ import { notFound } from "next/navigation";
 import Link from "next/link";
 import Masthead from "@/components/Masthead";
 import Footer from "@/components/Footer";
-import businessData from "@/data/businesses.json";
+import { getBusinessBySlug, getAllBusinessSlugs } from "@/lib/data";
 import { getCategoryBySlug } from "@/data/categories";
-import type { Business } from "@/types/business";
-
-const businesses = businessData as Business[];
 
 export async function generateStaticParams() {
-  return businesses.map((b) => ({ slug: b.slug }));
+  const slugs = await getAllBusinessSlugs();
+  return slugs.map((slug) => ({ slug }));
 }
 
 export async function generateMetadata({
@@ -19,7 +17,7 @@ export async function generateMetadata({
   params: Promise<{ slug: string }>;
 }): Promise<Metadata> {
   const { slug } = await params;
-  const biz = businesses.find((b) => b.slug === slug);
+  const biz = await getBusinessBySlug(slug);
   if (!biz) return {};
   return {
     title: `${biz.name} — Benton, LA`,
@@ -39,7 +37,7 @@ export default async function BusinessPage({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
-  const biz = businesses.find((b) => b.slug === slug);
+  const biz = await getBusinessBySlug(slug);
   if (!biz) notFound();
 
   const cat = getCategoryBySlug(biz.category);

@@ -1,7 +1,5 @@
 import Link from "next/link";
-import eventsData from "@/data/events.json";
-import jobsData from "@/data/jobs.json";
-import classifiedsData from "@/data/classifieds.json";
+import { getEvents, getJobs, getClassifieds } from "@/lib/data";
 
 function SectionHead({ title, link }: { title: string; link: string }) {
   return (
@@ -21,7 +19,12 @@ function SectionHead({ title, link }: { title: string; link: string }) {
   );
 }
 
-export default function CommunitySection() {
+export default async function CommunitySection() {
+  const [eventsData, jobsData, classifiedsData] = await Promise.all([
+    getEvents(),
+    getJobs(),
+    getClassifieds(),
+  ]);
   return (
     <div style={{
       borderTop: "3px solid #111",

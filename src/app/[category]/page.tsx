@@ -4,11 +4,9 @@ import Link from "next/link";
 import Masthead from "@/components/Masthead";
 import Footer from "@/components/Footer";
 import BusinessCard from "@/components/BusinessCard";
-import businessData from "@/data/businesses.json";
+import { getBusinessesByCategory } from "@/lib/data";
 import { categories, getCategoryBySlug } from "@/data/categories";
 import type { Business } from "@/types/business";
-
-const businesses = businessData as Business[];
 
 export async function generateStaticParams() {
   return categories.map((cat) => ({ category: cat.slug }));
@@ -43,12 +41,7 @@ export default async function CategoryPage({
   const cat = getCategoryBySlug(category);
   if (!cat) notFound();
 
-  const bizList = businesses
-    .filter((b) => b.category === category && b.is_active)
-    .sort((a, b) => {
-      const order = { featured: 0, premium: 1, standard: 2, free: 3 };
-      return order[a.tier] - order[b.tier];
-    });
+  const bizList = await getBusinessesByCategory(category);
 
   const schema = {
     "@context": "https://schema.org",
