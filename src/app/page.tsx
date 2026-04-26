@@ -35,7 +35,8 @@ function ColSection({ catSlug }: { catSlug: string }) {
     .sort((a, b) => {
       const order = { featured: 0, premium: 1, standard: 2, free: 3 };
       return order[a.tier] - order[b.tier];
-    });
+    })
+    .slice(0, 5);
 
   return (
     <div style={{ marginBottom: 8 }}>
