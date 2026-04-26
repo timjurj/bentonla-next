@@ -8,6 +8,8 @@ import { getBusinessesByCategory } from "@/lib/data";
 import { categories, getCategoryBySlug } from "@/data/categories";
 import type { Business } from "@/types/business";
 
+export const dynamicParams = true;
+
 export async function generateStaticParams() {
   return categories.map((cat) => ({ category: cat.slug }));
 }
