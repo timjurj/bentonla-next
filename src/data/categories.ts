@@ -125,6 +125,10 @@ export const categories = [
       "Find general contractors and remodeling services in Benton, Louisiana. Home renovation, roofing, flooring, and more in Bossier Parish.",
     seoIntro: `Planning a home renovation in Benton, Louisiana? BentonLA.com lists trusted general contractors, remodelers, roofers, and specialty trade contractors serving Benton and Bossier Parish. From kitchen and bath remodels to full home renovations, find the right contractor for your project here.`,
   },
+  {
+    slug: "restaurants",
+    name: "Restaurants",
+    icon: "🍽",
     title: "Best Restaurants in Benton, LA",
     metaDescription:
       "Discover the best restaurants in Benton, Louisiana. From local BBQ to Mexican food and Chinese takeout — find places to eat in Bossier Parish.",
