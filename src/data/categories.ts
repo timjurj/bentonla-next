@@ -81,9 +81,50 @@ export const categories = [
     seoIntro: `Protect what matters most with the right insurance coverage. BentonLA.com lists trusted insurance agents serving Benton and Bossier Parish — offering home, auto, life, health, and business insurance. Whether you're a new homeowner in Benton or a local business owner, find the right coverage here.`,
   },
   {
-    slug: "restaurants",
-    name: "Restaurants",
-    icon: "🍽",
+    slug: "pharmacies",
+    name: "Pharmacies",
+    icon: "💊",
+    title: "Pharmacies in Benton, LA",
+    metaDescription:
+      "Find pharmacies in Benton, Louisiana. Prescription pickup, compounding, immunizations, and more serving Bossier Parish.",
+    seoIntro: `Need a pharmacy near Benton, Louisiana? BentonLA.com lists the top pharmacies serving Benton and Bossier Parish — from local independent compounding pharmacies to national chains. Find prescription pickup, immunizations, and health consultations near you in the 71006 zip code.`,
+  },
+  {
+    slug: "gyms",
+    name: "Gyms & Fitness",
+    icon: "💪",
+    title: "Gyms & Fitness Centers in Benton, LA",
+    metaDescription:
+      "Find gyms and fitness centers in Benton, Louisiana. 24-hour gyms, personal training, and fitness classes in Bossier Parish.",
+    seoIntro: `Looking for a gym near Benton, Louisiana? BentonLA.com lists the top fitness centers and gyms serving Benton and Bossier Parish — including 24-hour access gyms, personal training, group fitness classes, and more. Whether you're just starting your fitness journey or a seasoned athlete, find your gym in Benton here.`,
+  },
+  {
+    slug: "shopping",
+    name: "Shopping & Grocery",
+    icon: "🛒",
+    title: "Shopping & Grocery Stores in Benton, LA",
+    metaDescription:
+      "Find grocery stores and shopping in Benton, Louisiana. Brookshire's, Walgreens, and more serving Bossier Parish.",
+    seoIntro: `From full-service grocery stores to pharmacies and convenience stores, BentonLA.com lists the best shopping options in Benton, Louisiana and the greater Bossier Parish area. Find grocery stores, dollar stores, hardware stores, and more near Benton, LA 71006.`,
+  },
+  {
+    slug: "lawyers",
+    name: "Lawyers & Legal",
+    icon: "⚖️",
+    title: "Lawyers & Legal Services in Benton, LA",
+    metaDescription:
+      "Find lawyers and legal services in Benton, Louisiana. Family law, real estate, wills, and more in Bossier Parish.",
+    seoIntro: `Looking for a trusted attorney near Benton, Louisiana? BentonLA.com lists lawyers and legal service providers serving Benton and Bossier Parish — including family law, real estate attorneys, estate planning, personal injury, and criminal defense. Find the right legal representation in the Benton area.`,
+  },
+  {
+    slug: "contractors",
+    name: "Contractors & Remodeling",
+    icon: "🔨",
+    title: "Contractors & Remodeling in Benton, LA",
+    metaDescription:
+      "Find general contractors and remodeling services in Benton, Louisiana. Home renovation, roofing, flooring, and more in Bossier Parish.",
+    seoIntro: `Planning a home renovation in Benton, Louisiana? BentonLA.com lists trusted general contractors, remodelers, roofers, and specialty trade contractors serving Benton and Bossier Parish. From kitchen and bath remodels to full home renovations, find the right contractor for your project here.`,
+  },
     title: "Best Restaurants in Benton, LA",
     metaDescription:
       "Discover the best restaurants in Benton, Louisiana. From local BBQ to Mexican food and Chinese takeout — find places to eat in Bossier Parish.",
