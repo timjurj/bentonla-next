@@ -9,6 +9,78 @@ export const categories = [
     seoIntro: `Looking for reliable home services in Benton, Louisiana? Whether you need house cleaning, lawn care, pest control, or a trusted handyman, Benton's growing community has you covered. BentonLA.com lists the top-rated home service providers serving Benton and the greater Bossier Parish area — all vetted and locally trusted.`,
   },
   {
+    slug: "plumbers",
+    name: "Plumbers",
+    icon: "🔧",
+    title: "Best Plumbers in Benton, LA",
+    metaDescription:
+      "Find licensed plumbers in Benton, Louisiana. Emergency plumbing, water heaters, drain cleaning, and more serving Bossier Parish.",
+    seoIntro: `Need a licensed plumber in Benton, Louisiana? Whether it's an emergency leak, a water heater replacement, or a clogged drain, BentonLA.com lists the most trusted plumbing contractors serving Benton and Bossier Parish. All listed plumbers are licensed and serve the 71006 zip code area.`,
+  },
+  {
+    slug: "electricians",
+    name: "Electricians",
+    icon: "⚡",
+    title: "Licensed Electricians in Benton, LA",
+    metaDescription:
+      "Find licensed electricians in Benton, Louisiana. Panel upgrades, wiring, EV chargers, and emergency electrical service in Bossier Parish.",
+    seoIntro: `Looking for a licensed electrician near Benton, Louisiana? From panel upgrades and new wiring to EV charger installations and emergency electrical repairs, BentonLA.com lists the top-rated electricians serving Benton and Bossier Parish. Fast response times and competitive pricing.`,
+  },
+  {
+    slug: "hvac",
+    name: "HVAC",
+    icon: "❄️",
+    title: "HVAC & Air Conditioning in Benton, LA",
+    metaDescription:
+      "Find HVAC contractors in Benton, Louisiana. AC repair, heating, installation, and maintenance serving Bossier Parish.",
+    seoIntro: `When your AC goes out in a Louisiana summer, you need help fast. BentonLA.com lists the top HVAC contractors serving Benton and Bossier Parish — including emergency AC repair, system installations, routine maintenance, and heating services. Licensed and insured technicians available.`,
+  },
+  {
+    slug: "dentists",
+    name: "Dentists",
+    icon: "🦷",
+    title: "Dentists in Benton, LA",
+    metaDescription:
+      "Find dentists in Benton, Louisiana. General, cosmetic, pediatric, and orthodontic dentistry serving Bossier Parish.",
+    seoIntro: `Looking for a dentist near Benton, Louisiana? BentonLA.com lists the top dental practices serving Benton and Bossier Parish — from general family dentistry and pediatric care to cosmetic dentistry and orthodontics. Many practices are accepting new patients and accept most major insurance plans.`,
+  },
+  {
+    slug: "daycares",
+    name: "Daycares",
+    icon: "👶",
+    title: "Daycares & Childcare in Benton, LA",
+    metaDescription:
+      "Find daycares and childcare centers in Benton, Louisiana. Licensed providers serving infants through school age in Bossier Parish.",
+    seoIntro: `Finding quality childcare in Benton, Louisiana is one of the most important decisions a family makes. BentonLA.com lists licensed daycares, preschools, and childcare centers serving Benton and North Bossier Parish — including infant care, toddler programs, Pre-K, and after-school care options.`,
+  },
+  {
+    slug: "veterinarians",
+    name: "Veterinarians",
+    icon: "🐾",
+    title: "Veterinarians in Benton, LA",
+    metaDescription:
+      "Find veterinarians and animal hospitals near Benton, Louisiana. Pet care, emergency vet services, and grooming in Bossier Parish.",
+    seoIntro: `Your pets deserve great care too. BentonLA.com lists the top veterinarians and animal hospitals serving Benton and Bossier Parish — including routine wellness visits, emergency vet care, vaccinations, spay and neuter services, and pet grooming. Find a vet near Benton, LA 71006.`,
+  },
+  {
+    slug: "hair-salons",
+    name: "Hair Salons & Barbers",
+    icon: "✂️",
+    title: "Hair Salons & Barbers in Benton, LA",
+    metaDescription:
+      "Find hair salons and barber shops in Benton, Louisiana. Cuts, color, styling, and more in Bossier Parish.",
+    seoIntro: `New to Benton and looking for a great haircut? BentonLA.com lists the top hair salons and barber shops serving Benton and North Bossier Parish — for men, women, and children. Find stylists specializing in cuts, color, highlights, braids, and more near Benton, LA.`,
+  },
+  {
+    slug: "insurance",
+    name: "Insurance",
+    icon: "🛡️",
+    title: "Insurance Agents in Benton, LA",
+    metaDescription:
+      "Find insurance agents in Benton, Louisiana. Home, auto, life, and business insurance serving Bossier Parish.",
+    seoIntro: `Protect what matters most with the right insurance coverage. BentonLA.com lists trusted insurance agents serving Benton and Bossier Parish — offering home, auto, life, health, and business insurance. Whether you're a new homeowner in Benton or a local business owner, find the right coverage here.`,
+  },
+  {
     slug: "restaurants",
     name: "Restaurants",
     icon: "🍽",
