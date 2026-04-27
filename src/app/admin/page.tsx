@@ -355,20 +355,6 @@ export default function AdminDashboard() {
   );
 }
 
-
-type Submission = {
-  id: string;
-  name: string;
-  email: string;
-  phone: string;
-  website: string;
-  address: string;
-  category: string;
-  description: string;
-  status: string;
-  created_at: string;
-};
-
 type Business = {
   id: string;
   name: string;
