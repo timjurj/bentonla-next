@@ -5,6 +5,7 @@ import Footer from "@/components/Footer";
 import BusinessCard from "@/components/BusinessCard";
 import SearchDirectory from "@/components/SearchDirectory";
 import CommunitySection from "@/components/CommunitySection";
+import NewsStrip from "@/components/NewsStrip";
 import { getBusinesses } from "@/lib/data";
 import { categories } from "@/data/categories";
 import type { Business } from "@/types/business";
@@ -167,6 +168,9 @@ export default async function HomePage() {
           </a>{" "}
           serves all of Bossier Parish.
         </div>
+
+        {/* News Strip */}
+        <NewsStrip />
 
         {/* Community Board */}
         <CommunitySection />

@@ -8,7 +8,7 @@ type Business = { id: string; slug: string; name: string; category: string; tagl
 type Event = { id: string; title: string; date: string; location: string; description: string; link: string; is_active: boolean; created_at: string; };
 type Job = { id: string; title: string; company: string; type: string; pay: string; description: string; link: string; is_active: boolean; created_at: string; };
 type Classified = { id: string; title: string; price: string; condition: string; description: string; link: string; is_active: boolean; created_at: string; };
-type Tab = "submissions" | "businesses" | "events" | "jobs" | "classifieds";
+type Tab = "submissions" | "businesses" | "events" | "jobs" | "classifieds" | "news";
 type EditTarget = { table: string; data: Record<string, string | boolean> } | null;
 
 export default function AdminDashboard() {
@@ -18,6 +18,8 @@ export default function AdminDashboard() {
   const [events, setEvents] = useState<Event[]>([]);
   const [jobs, setJobs] = useState<Job[]>([]);
   const [classifieds, setClassifieds] = useState<Classified[]>([]);
+  const [news, setNews] = useState<{ id: string; title: string; url: string; source: string; is_active: boolean; created_at: string }[]>([]);
+  const [newNewsForm, setNewNewsForm] = useState({ title: "", url: "", source: "" });
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState("");
   const [editBiz, setEditBiz] = useState<Business | null>(null);
@@ -28,18 +30,20 @@ export default function AdminDashboard() {
 
   async function fetchAll() {
     setLoading(true);
-    const [{ data: subs }, { data: biz }, { data: evts }, { data: jbs }, { data: cls }] = await Promise.all([
+    const [{ data: subs }, { data: biz }, { data: evts }, { data: jbs }, { data: cls }, { data: nws }] = await Promise.all([
       supabase.from("submissions").select("*").order("created_at", { ascending: false }),
       supabase.from("businesses").select("*").order("category"),
       supabase.from("events").select("*").order("created_at", { ascending: false }),
       supabase.from("jobs").select("*").order("created_at", { ascending: false }),
       supabase.from("classifieds").select("*").order("created_at", { ascending: false }),
+      supabase.from("news").select("*").order("created_at", { ascending: false }),
     ]);
     setSubmissions((subs as Submission[]) || []);
     setBusinesses((biz as Business[]) || []);
     setEvents((evts as Event[]) || []);
     setJobs((jbs as Job[]) || []);
     setClassifieds((cls as Classified[]) || []);
+    setNews((nws as { id: string; title: string; url: string; source: string; is_active: boolean; created_at: string }[]) || []);
     setLoading(false);
   }
 
@@ -258,6 +262,7 @@ export default function AdminDashboard() {
             { label: "Events", value: events.filter(e => e.is_active).length },
             { label: "Jobs", value: jobs.filter(j => j.is_active).length },
             { label: "Classifieds", value: classifieds.filter(c => c.is_active).length },
+            { label: "News Links", value: news.filter(n => n.is_active).length },
           ].map(stat => (
             <div key={stat.label} style={{ background: "#1a1a22", border: "1px solid #2a2a35", borderRadius: 6, padding: "12px 14px", textAlign: "center" }}>
               <p style={{ fontFamily: "'Oswald', sans-serif", fontSize: 24, fontWeight: 700, color: "#f5f2eb" }}>{stat.value}</p>
@@ -274,6 +279,7 @@ export default function AdminDashboard() {
             { key: "events", label: "Events", pending: pendingEvents.length },
             { key: "jobs", label: "Jobs", pending: pendingJobs.length },
             { key: "classifieds", label: "Buy/Sell", pending: pendingClassifieds.length },
+            { key: "news", label: "News", pending: 0 },
           ] as { key: Tab; label: string; pending: number }[]).map(t => (
             <button key={t.key} style={s.tab(tab === t.key)} onClick={() => setTab(t.key)}>
               {t.label}<PendingBadge count={t.pending} />
@@ -419,8 +425,7 @@ export default function AdminDashboard() {
           </div>}
 
           {/* CLASSIFIEDS */}
-          {tab === "classifieds" && <div>
-            {pendingClassifieds.length > 0 && <><p style={s.sh}>Pending Approval</p>
+          {tab === "classifieds" && <div>            {pendingClassifieds.length > 0 && <><p style={s.sh}>Pending Approval</p>
               {pendingClassifieds.map(item => (
                 <div key={item.id} style={s.pendingCard}>
                   <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", flexWrap: "wrap", gap: 8 }}>
@@ -449,6 +454,50 @@ export default function AdminDashboard() {
                     <button style={s.btn("#2255aa")} onClick={() => setEditTarget({ table: "classifieds", data: { id: item.id, title: item.title, price: item.price, condition: item.condition || "", description: item.description || "", link: item.link || "" } })}>Edit</button>
                     <button style={s.btn("#555")} onClick={() => toggleActive("classifieds", item.id, true)}>Deactivate</button>
                     <button style={s.btn("#7a2d2d")} onClick={() => deleteRow("classifieds", item.id)}>Delete</button>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>}
+
+          {/* NEWS */}
+          {tab === "news" && <div>
+            <p style={s.sh}>Add News Link</p>
+            <div style={s.card}>
+              <label style={s.label}>Headline</label>
+              <input value={newNewsForm.title} onChange={e => setNewNewsForm({ ...newNewsForm, title: e.target.value })} maxLength={120} placeholder="e.g. New subdivision approved in Benton..." style={s.input} />
+              <label style={s.label}>URL</label>
+              <input value={newNewsForm.url} onChange={e => setNewNewsForm({ ...newNewsForm, url: e.target.value })} maxLength={300} placeholder="https://..." style={s.input} />
+              <label style={s.label}>Source (optional)</label>
+              <input value={newNewsForm.source} onChange={e => setNewNewsForm({ ...newNewsForm, source: e.target.value })} maxLength={50} placeholder="e.g. Bossier Press-Tribune" style={{ ...s.input, marginBottom: 12 }} />
+              <button
+                style={{ ...s.btn("#2d7a4f"), marginLeft: 0, padding: "8px 20px", fontSize: 11 }}
+                onClick={async () => {
+                  if (!newNewsForm.title || !newNewsForm.url) { alert("Title and URL required."); return; }
+                  const id = `news-${Date.now()}`;
+                  const { error } = await supabase.from("news").insert([{ id, ...newNewsForm, is_active: true }]);
+                  if (error) alert("Error: " + error.message);
+                  else { setNewNewsForm({ title: "", url: "", source: "" }); fetchAll(); }
+                }}
+              >
+                + Add Link
+              </button>
+            </div>
+            <p style={s.sh}>Active Links ({news.filter(n => n.is_active).length}/5 shown on homepage)</p>
+            {news.length === 0 ? <p style={{ color: "#555" }}>No news links yet.</p> : news.map((item, i) => (
+              <div key={item.id} style={{ ...s.card, opacity: item.is_active ? 1 : 0.45 }}>
+                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", flexWrap: "wrap", gap: 8 }}>
+                  <div style={{ flex: 1 }}>
+                    <p style={{ fontWeight: 700, color: "#f5f2eb", fontSize: 13, marginBottom: 2 }}>{item.title}</p>
+                    <p style={{ fontSize: 11, color: "#4a9eff" }}>{item.url}</p>
+                    {item.source && <p style={{ fontSize: 11, color: "#666", marginTop: 2 }}>Source: {item.source}</p>}
+                    <p style={{ fontSize: 10, color: "#444", marginTop: 3 }}>Position #{i + 1}</p>
+                  </div>
+                  <div style={{ display: "flex", gap: 6 }}>
+                    <button style={s.btn(item.is_active ? "#555" : "#2d7a4f")} onClick={() => toggleActive("news", item.id, item.is_active)}>
+                      {item.is_active ? "Hide" : "Show"}
+                    </button>
+                    <button style={s.btn("#7a2d2d")} onClick={() => deleteRow("news", item.id)}>Delete</button>
                   </div>
                 </div>
               </div>

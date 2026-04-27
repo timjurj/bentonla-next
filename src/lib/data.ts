@@ -64,7 +64,16 @@ export async function getJobs() {
   return data;
 }
 
-export async function getClassifieds() {
+export async function getNews() {
+  const { data, error } = await supabase
+    .from("news")
+    .select("*")
+    .eq("is_active", true)
+    .order("created_at", { ascending: false })
+    .limit(5);
+  if (error) { console.error("getNews error:", error); return []; }
+  return data;
+}
   const { data, error } = await supabase
     .from("classifieds")
     .select("*")
