@@ -53,6 +53,7 @@ export default function PostClassifiedPage() {
       condition: form.condition || form.category,
       description: form.description,
       link: form.contact || "#",
+      email: form.email || null,
       images: imageUrls.length > 0 ? imageUrls : null,
       is_active: false,
       expires_at: expiresAt.toISOString(),

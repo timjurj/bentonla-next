@@ -26,7 +26,7 @@ export default function SubmitEventPage() {
     const { error } = await supabase.from("events").insert([{
       id, title: form.title, date: form.date,
       location: form.location, description: form.description,
-      link: form.link || "#",
+      link: form.link || "#", email: form.email || null,
       is_active: false,
       expires_at: expiresAt.toISOString(),
     }]);

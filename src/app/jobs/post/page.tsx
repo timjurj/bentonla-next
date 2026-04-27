@@ -23,7 +23,7 @@ export default function PostJobPage() {
     const { error } = await supabase.from("jobs").insert([{
       id, title: form.title, company: form.company, type: form.type,
       pay: form.pay || null, description: form.description,
-      link: form.link || "#",
+      link: form.link || "#", email: form.email || null,
       is_active: false,
       expires_at: expiresAt.toISOString(),
     }]);

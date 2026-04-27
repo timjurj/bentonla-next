@@ -5,9 +5,9 @@ import { supabase } from "@/lib/supabase";
 
 type Submission = { id: string; name: string; email: string; phone: string; website: string; address: string; category: string; description: string; status: string; created_at: string; };
 type Business = { id: string; slug: string; name: string; category: string; tagline: string; description: string; phone: string; website: string; address: string; tier: string; is_active: boolean; is_new: boolean; };
-type Event = { id: string; title: string; date: string; location: string; description: string; link: string; is_active: boolean; created_at: string; };
-type Job = { id: string; title: string; company: string; type: string; pay: string; description: string; link: string; is_active: boolean; created_at: string; };
-type Classified = { id: string; title: string; price: string; condition: string; description: string; link: string; is_active: boolean; created_at: string; };
+type Event = { id: string; title: string; date: string; location: string; description: string; link: string; is_active: boolean; created_at: string; email?: string; };
+type Job = { id: string; title: string; company: string; type: string; pay: string; description: string; link: string; is_active: boolean; created_at: string; email?: string; };
+type Classified = { id: string; title: string; price: string; condition: string; description: string; link: string; is_active: boolean; created_at: string; email?: string; };
 type Tab = "submissions" | "businesses" | "events" | "jobs" | "classifieds" | "news";
 type EditTarget = { table: string; data: Record<string, string | boolean> } | null;
 
@@ -78,6 +78,18 @@ export default function AdminDashboard() {
 
   async function toggleActive(table: string, id: string, current: boolean) {
     await supabase.from(table).update({ is_active: !current }).eq("id", id);
+    fetchAll();
+  }
+
+  async function approveItem(table: string, id: string, type: string, title: string, email?: string) {
+    await supabase.from(table).update({ is_active: true }).eq("id", id);
+    if (email) {
+      await fetch("/api/notify", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ type, subtype: "approval", data: { title, email } }),
+      });
+    }
     fetchAll();
   }
 
@@ -375,7 +387,7 @@ export default function AdminDashboard() {
                     </div>
                     <div style={{ display: "flex", gap: 6 }}>
                       <button style={s.btn("#2255aa")} onClick={() => setEditTarget({ table: "events", data: { id: evt.id, title: evt.title, date: evt.date, location: evt.location, description: evt.description || "", link: evt.link || "" } })}>Edit</button>
-                      <button style={s.btn("#2d7a4f")} onClick={() => toggleActive("events", evt.id, false)}>✓ Approve</button>
+                      <button style={s.btn("#2d7a4f")} onClick={() => approveItem("events", evt.id, "event", evt.title, evt.email)}>✓ Approve</button>
                       <button style={s.btn("#7a2d2d")} onClick={() => deleteRow("events", evt.id)}>✕ Reject</button>
                     </div>
                   </div>
@@ -412,7 +424,7 @@ export default function AdminDashboard() {
                     </div>
                     <div style={{ display: "flex", gap: 6 }}>
                       <button style={s.btn("#2255aa")} onClick={() => setEditTarget({ table: "jobs", data: { id: job.id, title: job.title, company: job.company, type: job.type, pay: job.pay || "", description: job.description || "", link: job.link || "" } })}>Edit</button>
-                      <button style={s.btn("#2d7a4f")} onClick={() => toggleActive("jobs", job.id, false)}>✓ Approve</button>
+                      <button style={s.btn("#2d7a4f")} onClick={() => approveItem("jobs", job.id, "job", job.title, job.email)}>✓ Approve</button>
                       <button style={s.btn("#7a2d2d")} onClick={() => deleteRow("jobs", job.id)}>✕ Reject</button>
                     </div>
                   </div>
@@ -448,7 +460,7 @@ export default function AdminDashboard() {
                     </div>
                     <div style={{ display: "flex", gap: 6 }}>
                       <button style={s.btn("#2255aa")} onClick={() => setEditTarget({ table: "classifieds", data: { id: item.id, title: item.title, price: item.price, condition: item.condition || "", description: item.description || "", link: item.link || "" } })}>Edit</button>
-                      <button style={s.btn("#2d7a4f")} onClick={() => toggleActive("classifieds", item.id, false)}>✓ Approve</button>
+                      <button style={s.btn("#2d7a4f")} onClick={() => approveItem("classifieds", item.id, "classified", item.title, item.email)}>✓ Approve</button>
                       <button style={s.btn("#7a2d2d")} onClick={() => deleteRow("classifieds", item.id)}>✕ Reject</button>
                     </div>
                   </div>
