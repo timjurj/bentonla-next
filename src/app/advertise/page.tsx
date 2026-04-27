@@ -38,7 +38,7 @@ const tiers = [
       "Middle homepage ranking",
     ],
     cta: "Get Started — $19/mo",
-    ctaLink: "mailto:bentonlacom@gmail.com?subject=Standard Listing Inquiry",
+    ctaLink: "https://buy.stripe.com/9B69AUeqIbho8hwfjx9fW01",
     ctaStyle: "solid-blue",
   },
   {
@@ -56,7 +56,7 @@ const tiers = [
       "Priority placement always",
     ],
     cta: "Get Featured — $49/mo",
-    ctaLink: "mailto:bentonlacom@gmail.com?subject=Featured Listing Inquiry",
+    ctaLink: "https://buy.stripe.com/6oU14o4Q85X4gO2fjx9fW00",
     ctaStyle: "solid-black",
   },
 ];
