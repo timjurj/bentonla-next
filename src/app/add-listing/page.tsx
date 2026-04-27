@@ -131,20 +131,20 @@ export default function AddListingPage() {
               </p>
             </div>
 
-            <label style={labelStyle}>Business Name *</label>
-            <input name="name" value={form.name} onChange={handle} placeholder="e.g. Gleaux Cleaning LLC" style={inputStyle} />
+            <label style={labelStyle}>Business Name * <span style={{ color: "#999", fontSize: 10 }}>({form.name.length}/80)</span></label>
+            <input name="name" value={form.name} onChange={handle} placeholder="e.g. Gleaux Cleaning LLC" maxLength={80} style={inputStyle} />
 
             <label style={labelStyle}>Your Email *</label>
-            <input name="email" type="email" value={form.email} onChange={handle} placeholder="you@yourbusiness.com" style={inputStyle} />
+            <input name="email" type="email" value={form.email} onChange={handle} placeholder="you@yourbusiness.com" maxLength={100} style={inputStyle} />
 
             <label style={labelStyle}>Phone Number</label>
-            <input name="phone" value={form.phone} onChange={handle} placeholder="(318) 555-0101" style={inputStyle} />
+            <input name="phone" value={form.phone} onChange={handle} placeholder="(318) 555-0101" maxLength={20} style={inputStyle} />
 
             <label style={labelStyle}>Website</label>
-            <input name="website" value={form.website} onChange={handle} placeholder="https://yourbusiness.com" style={inputStyle} />
+            <input name="website" value={form.website} onChange={handle} placeholder="https://yourbusiness.com" maxLength={200} style={inputStyle} />
 
             <label style={labelStyle}>Address</label>
-            <input name="address" value={form.address} onChange={handle} placeholder="123 Main St, Benton, LA 71006" style={inputStyle} />
+            <input name="address" value={form.address} onChange={handle} placeholder="123 Main St, Benton, LA 71006" maxLength={150} style={inputStyle} />
 
             <label style={labelStyle}>Category *</label>
             <select name="category" value={form.category} onChange={handle} style={{ ...inputStyle, cursor: "pointer" }}>
@@ -152,12 +152,13 @@ export default function AddListingPage() {
               {categoryOptions.map(c => <option key={c} value={c}>{c}</option>)}
             </select>
 
-            <label style={labelStyle}>Tell us about your business</label>
+            <label style={labelStyle}>Tell us about your business <span style={{ color: "#999", fontSize: 10 }}>({form.description.length}/500)</span></label>
             <textarea
               name="description"
               value={form.description}
               onChange={handle}
               rows={4}
+              maxLength={500}
               placeholder="Brief description of your services..."
               style={{ ...inputStyle, resize: "vertical" }}
             />
