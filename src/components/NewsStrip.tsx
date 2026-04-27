@@ -77,20 +77,6 @@ export default async function NewsStrip() {
         ))}
       </span>
 
-      {/* Manage link */}
-      <Link href="/news" style={{
-        fontFamily: "'Oswald', sans-serif",
-        fontSize: 9,
-        letterSpacing: 2,
-        textTransform: "uppercase",
-        color: "#aaa",
-        marginLeft: 14,
-        whiteSpace: "nowrap",
-        flexShrink: 0,
-        textDecoration: "none",
-      }}>
-        More »
-      </Link>
     </div>
   );
 }
