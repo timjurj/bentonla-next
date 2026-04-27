@@ -10,6 +10,8 @@ import { getBusinesses } from "@/lib/data";
 import { categories } from "@/data/categories";
 import type { Business } from "@/types/business";
 
+export const dynamic = "force-dynamic";
+
 export const metadata: Metadata = {
   title: "BentonLA.com — Benton, Louisiana Local Business Directory",
   description:
