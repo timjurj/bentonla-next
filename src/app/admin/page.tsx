@@ -57,8 +57,18 @@ export default function AdminDashboard() {
       phone: sub.phone, website: sub.website || null,
       address: sub.address, tier: "free", is_new: true, is_active: true,
     }]);
-    if (!error) { await supabase.from("submissions").update({ status: "approved" }).eq("id", sub.id); fetchAll(); }
-    else alert("Error: " + error.message);
+    if (!error) {
+      await supabase.from("submissions").update({ status: "approved" }).eq("id", sub.id);
+      // Send approval email to submitter
+      if (sub.email) {
+        await fetch("/api/notify", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ type: "business", subtype: "approval", data: { name: sub.name, email: sub.email } }),
+        });
+      }
+      fetchAll();
+    } else alert("Error: " + error.message);
   }
 
   async function rejectSubmission(id: string) {

@@ -4,7 +4,7 @@ import Link from "next/link";
 import Masthead from "@/components/Masthead";
 import Footer from "@/components/Footer";
 import { supabase } from "@/lib/supabase";
-import { notify } from "@/lib/notify";
+import { notify, notifyAll } from "@/lib/notify";
 
 const categoryOptions = [
   "Home Services", "Plumbers", "Electricians", "HVAC", "Contractors",
@@ -42,7 +42,7 @@ export default function AddListingPage() {
       status: "pending",
     }]);
     if (error) { setStatus("error"); return; }
-    await notify("business", { ...form });
+    await notifyAll("business", { ...form });
     setStatus("success");
   };
 

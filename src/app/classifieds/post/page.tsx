@@ -4,7 +4,7 @@ import Link from "next/link";
 import Masthead from "@/components/Masthead";
 import Footer from "@/components/Footer";
 import { supabase } from "@/lib/supabase";
-import { notify } from "@/lib/notify";
+import { notifyAll } from "@/lib/notify";
 
 const categories = [
   "Vehicles", "Real Estate", "Furniture", "Electronics", "Tools & Equipment",
@@ -58,7 +58,7 @@ export default function PostClassifiedPage() {
       expires_at: expiresAt.toISOString(),
     }]);
     if (error) { setStatus("error"); return; }
-    await notify("classified", { ...form, imageCount: imageUrls.length });
+    await notifyAll("classified", { ...form, imageCount: imageUrls.length });
     setStatus("success");
   };
 

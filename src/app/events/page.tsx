@@ -97,6 +97,12 @@ export default async function EventsPage() {
           </Link>
         </div>
 
+        <div style={{ textAlign: "center", marginTop: 14 }}>
+          <Link href="/events/archive" style={{ fontSize: 11, color: "#aaa", fontFamily: "'Oswald', sans-serif", letterSpacing: 2, textTransform: "uppercase" }}>
+            View Past Events Archive →
+          </Link>
+        </div>
+
       </main>
       <Footer />
     </>

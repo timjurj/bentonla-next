@@ -106,6 +106,12 @@ export default async function JobsPage() {
           </Link>
         </div>
 
+        <div style={{ textAlign: "center", marginTop: 14 }}>
+          <Link href="/jobs/archive" style={{ fontSize: 11, color: "#aaa", fontFamily: "'Oswald', sans-serif", letterSpacing: 2, textTransform: "uppercase" }}>
+            View Past Jobs Archive →
+          </Link>
+        </div>
+
       </main>
       <Footer />
     </>

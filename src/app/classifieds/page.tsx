@@ -90,6 +90,12 @@ export default async function ClassifiedsPage() {
           </Link>
         </div>
 
+        <div style={{ textAlign: "center", marginTop: 14 }}>
+          <Link href="/classifieds/archive" style={{ fontSize: 11, color: "#aaa", fontFamily: "'Oswald', sans-serif", letterSpacing: 2, textTransform: "uppercase" }}>
+            View Past Listings Archive →
+          </Link>
+        </div>
+
       </main>
       <Footer />
     </>
