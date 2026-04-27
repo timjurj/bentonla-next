@@ -74,6 +74,7 @@ export async function getNews() {
   if (error) { console.error("getNews error:", error); return []; }
   return data;
 }
+export async function getClassifieds() {
   const { data, error } = await supabase
     .from("classifieds")
     .select("*")
