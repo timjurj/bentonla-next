@@ -19,6 +19,8 @@ export default function Footer() {
         <span style={{ margin: "0 8px", color: "var(--ink-xlight)" }}>|</span>
         <Link href="/advertise">ADVERTISE</Link>
         <span style={{ margin: "0 8px", color: "var(--ink-xlight)" }}>|</span>
+        <a href="mailto:bentonlacom@gmail.com">CONTACT</a>
+        <span style={{ margin: "0 8px", color: "var(--ink-xlight)" }}>|</span>
         <Link href="/sitemap.xml">SITEMAP</Link>
       </div>
       <div>© {new Date().getFullYear()} BENTONLA.COM · ALL RIGHTS RESERVED · BENTON, LOUISIANA · BOSSIER PARISH</div>

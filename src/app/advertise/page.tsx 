@@ -38,7 +38,7 @@ const tiers = [
       "Middle homepage ranking",
     ],
     cta: "Get Started — $19/mo",
-    ctaLink: "mailto:hello@bentonla.com?subject=Standard Listing Inquiry",
+    ctaLink: "mailto:bentonlacom@gmail.com?subject=Standard Listing Inquiry",
     ctaStyle: "solid-blue",
   },
   {
@@ -56,7 +56,7 @@ const tiers = [
       "Priority placement always",
     ],
     cta: "Get Featured — $49/mo",
-    ctaLink: "mailto:hello@bentonla.com?subject=Featured Listing Inquiry",
+    ctaLink: "mailto:bentonlacom@gmail.com?subject=Featured Listing Inquiry",
     ctaStyle: "solid-black",
   },
 ];
@@ -180,7 +180,7 @@ export default function AdvertisePage() {
             },
             {
               q: "Can I upgrade my free listing later?",
-              a: "Absolutely. Email us anytime at hello@bentonla.com and we'll upgrade your existing listing.",
+              a: "Absolutely. Email us anytime at bentonlacom@gmail.com and we'll upgrade your existing listing.",
             },
             {
               q: "Is there a contract or commitment?",
@@ -202,8 +202,8 @@ export default function AdvertisePage() {
           <p style={{ fontFamily: "'Oswald', sans-serif", fontSize: 14, fontWeight: 700, marginBottom: 8 }}>
             Questions? Let&apos;s talk.
           </p>
-          <a href="mailto:hello@bentonla.com" style={{ fontSize: 13, color: "var(--blue)" }}>
-            hello@bentonla.com
+          <a href="mailto:bentonlacom@gmail.com" style={{ fontSize: 13, color: "var(--blue)" }}>
+            bentonlacom@gmail.com
           </a>
         </div>
 
