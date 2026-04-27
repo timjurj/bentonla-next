@@ -29,7 +29,7 @@ function ColSection({ catSlug, businesses }: { catSlug: string; businesses: Busi
   const cat = categories.find((c) => c.slug === catSlug);
   if (!cat) return null;
   const bizList = businesses
-    .filter((b) => b.category === catSlug)
+    .filter((b) => b.category === catSlug && (b.tier === "featured" || b.tier === "premium" || b.tier === "standard"))
     .slice(0, 5);
 
   return (
