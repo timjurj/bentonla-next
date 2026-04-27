@@ -17,10 +17,14 @@ export default function PostJobPage() {
     if (!form.title || !form.company) { alert("Please fill in job title and company name."); return; }
     setStatus("submitting");
     const id = `job-${Date.now()}`;
+    const expiresAt = new Date();
+    expiresAt.setDate(expiresAt.getDate() + 30);
     const { error } = await supabase.from("jobs").insert([{
       id, title: form.title, company: form.company, type: form.type,
       pay: form.pay || null, description: form.description,
-      link: form.link || "#", is_active: false,
+      link: form.link || "#",
+      is_active: false,
+      expires_at: expiresAt.toISOString(),
     }]);
     if (error) { setStatus("error"); return; }
     setStatus("success");

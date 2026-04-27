@@ -25,6 +25,11 @@ export default async function CommunitySection() {
     getJobs(),
     getClassifieds(),
   ]);
+
+  const events = eventsData.slice(0, 5);
+  const jobs = jobsData.slice(0, 5);
+  const classifieds = classifiedsData.slice(0, 5);
+
   return (
     <div style={{
       borderTop: "3px solid #111",
@@ -32,44 +37,37 @@ export default async function CommunitySection() {
       margin: "16px 0",
       padding: "14px 0",
     }}>
-      {/* Header */}
-      <div style={{
-        textAlign: "center",
-        marginBottom: 12,
-      }}>
-        <p style={{
-          fontFamily: "'Oswald', sans-serif",
-          fontSize: 11,
-          letterSpacing: 3,
-          textTransform: "uppercase",
-          color: "#999",
-        }}>Community Board</p>
+      <div style={{ textAlign: "center", marginBottom: 12 }}>
+        <p style={{ fontFamily: "'Oswald', sans-serif", fontSize: 11, letterSpacing: 3, textTransform: "uppercase", color: "#999" }}>
+          Community Board
+        </p>
       </div>
 
       <div className="dir-grid">
         {/* EVENTS */}
         <div className="dir-col-1">
           <SectionHead title="📅 Upcoming Events" link="/events" />
-          {eventsData.map((event, i) => (
+          {events.length === 0 ? (
+            <p style={{ fontSize: 12, color: "#aaa" }}>No upcoming events.</p>
+          ) : events.map((event: { id: string; title: string; date: string; location: string; link: string }, i: number) => (
             <div key={event.id}>
               <div style={{ marginBottom: 8, lineHeight: 1.5 }}>
                 <span style={{ display: "block", fontWeight: 700, fontSize: 13 }}>
                   <span style={{ color: "#cc0000", marginRight: 4 }}>·</span>
-                  <Link href={event.link}>{event.title}</Link>
+                  <Link href={event.link && event.link !== "#" ? event.link : "/events"}>{event.title}</Link>
                 </span>
-                <span style={{ display: "block", fontSize: 11, color: "#555" }}>
-                  {event.date}
-                </span>
-                <span style={{ display: "block", fontSize: 11, color: "#888" }}>
-                  {event.location}
-                </span>
+                <span style={{ display: "block", fontSize: 11, color: "#555" }}>{event.date}</span>
+                <span style={{ display: "block", fontSize: 11, color: "#888" }}>{event.location}</span>
               </div>
-              {i < eventsData.length - 1 && (
-                <hr style={{ border: "none", borderTop: "1px solid #eee", margin: "6px 0" }} />
-              )}
+              {i < events.length - 1 && <hr style={{ border: "none", borderTop: "1px solid #eee", margin: "6px 0" }} />}
             </div>
           ))}
-          <div style={{ marginTop: 8 }}>
+          <div style={{ marginTop: 10, display: "flex", flexDirection: "column", gap: 4 }}>
+            {eventsData.length > 5 && (
+              <Link href="/events" style={{ fontSize: 11, color: "var(--blue)" }}>
+                » See all {eventsData.length} events →
+              </Link>
+            )}
             <Link href="/events/submit" style={{ fontSize: 11, color: "#cc0000" }}>
               » Submit an Event →
             </Link>
@@ -81,7 +79,9 @@ export default async function CommunitySection() {
         {/* JOBS */}
         <div className="dir-col-2">
           <SectionHead title="💼 Local Jobs" link="/jobs" />
-          {jobsData.map((job: { id: string; title: string; company: string; type: string; link: string }, i: number) => (
+          {jobs.length === 0 ? (
+            <p style={{ fontSize: 12, color: "#aaa" }}>No job listings.</p>
+          ) : jobs.map((job: { id: string; title: string; company: string; type: string; link: string }, i: number) => (
             <div key={job.id}>
               <div style={{ marginBottom: 8, lineHeight: 1.5 }}>
                 <span style={{ display: "block", fontWeight: 700, fontSize: 13 }}>
@@ -91,10 +91,15 @@ export default async function CommunitySection() {
                 <span style={{ display: "block", fontSize: 11, color: "#555" }}>{job.company}</span>
                 <span style={{ display: "inline-block", fontSize: 10, color: "#888", border: "1px solid #ddd", padding: "1px 6px", marginTop: 2 }}>{job.type}</span>
               </div>
-              {i < jobsData.length - 1 && <hr style={{ border: "none", borderTop: "1px solid #eee", margin: "6px 0" }} />}
+              {i < jobs.length - 1 && <hr style={{ border: "none", borderTop: "1px solid #eee", margin: "6px 0" }} />}
             </div>
           ))}
-          <div style={{ marginTop: 8 }}>
+          <div style={{ marginTop: 10, display: "flex", flexDirection: "column", gap: 4 }}>
+            {jobsData.length > 5 && (
+              <Link href="/jobs" style={{ fontSize: 11, color: "var(--blue)" }}>
+                » See all {jobsData.length} jobs →
+              </Link>
+            )}
             <Link href="/jobs/post" style={{ fontSize: 11, color: "#cc0000" }}>
               » Post a Job →
             </Link>
@@ -106,20 +111,27 @@ export default async function CommunitySection() {
         {/* BUY / SELL */}
         <div className="dir-col-3">
           <SectionHead title="🏷 Buy / Sell" link="/classifieds" />
-          {classifiedsData.map((item: { id: string; title: string; price: string; condition: string; link: string }, i: number) => (
+          {classifieds.length === 0 ? (
+            <p style={{ fontSize: 12, color: "#aaa" }}>No listings yet.</p>
+          ) : classifieds.map((item: { id: string; title: string; price: string; condition: string; link: string }, i: number) => (
             <div key={item.id}>
               <div style={{ marginBottom: 8, lineHeight: 1.5 }}>
                 <span style={{ display: "block", fontWeight: 700, fontSize: 13 }}>
                   <span style={{ color: "#cc0000", marginRight: 4 }}>·</span>
-                  <Link href={item.link && item.link !== "#" ? item.link : "/classifieds"}>{item.title}</Link>
+                  <Link href={`/classifieds/${item.id}`}>{item.title}</Link>
                 </span>
                 <span style={{ display: "block", fontSize: 12, color: "#111", fontWeight: 700 }}>{item.price}</span>
                 <span style={{ display: "block", fontSize: 11, color: "#888" }}>{item.condition}</span>
               </div>
-              {i < classifiedsData.length - 1 && <hr style={{ border: "none", borderTop: "1px solid #eee", margin: "6px 0" }} />}
+              {i < classifieds.length - 1 && <hr style={{ border: "none", borderTop: "1px solid #eee", margin: "6px 0" }} />}
             </div>
           ))}
-          <div style={{ marginTop: 8 }}>
+          <div style={{ marginTop: 10, display: "flex", flexDirection: "column", gap: 4 }}>
+            {classifiedsData.length > 5 && (
+              <Link href="/classifieds" style={{ fontSize: 11, color: "var(--blue)" }}>
+                » See all {classifiedsData.length} listings →
+              </Link>
+            )}
             <Link href="/classifieds/post" style={{ fontSize: 11, color: "#cc0000" }}>
               » Post a Listing →
             </Link>
