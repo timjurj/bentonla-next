@@ -49,7 +49,7 @@ export async function getEvents() {
     .from("events")
     .select("*")
     .eq("is_active", true)
-    .order("created_at", { ascending: true });
+    .order("created_at", { ascending: false });
   if (error) { console.error("getEvents error:", error); return []; }
   return data;
 }
@@ -59,7 +59,7 @@ export async function getJobs() {
     .from("jobs")
     .select("*")
     .eq("is_active", true)
-    .order("created_at", { ascending: true });
+    .order("created_at", { ascending: false });
   if (error) { console.error("getJobs error:", error); return []; }
   return data;
 }
@@ -69,7 +69,7 @@ export async function getClassifieds() {
     .from("classifieds")
     .select("*")
     .eq("is_active", true)
-    .order("created_at", { ascending: true });
+    .order("created_at", { ascending: false });
   if (error) { console.error("getClassifieds error:", error); return []; }
   return data;
 }

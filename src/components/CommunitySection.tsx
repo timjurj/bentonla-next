@@ -70,7 +70,7 @@ export default async function CommunitySection() {
             </div>
           ))}
           <div style={{ marginTop: 8 }}>
-            <Link href="/events" style={{ fontSize: 11, color: "#cc0000" }}>
+            <Link href="/events/submit" style={{ fontSize: 11, color: "#cc0000" }}>
               » Submit an Event →
             </Link>
           </div>
@@ -81,27 +81,21 @@ export default async function CommunitySection() {
         {/* JOBS */}
         <div className="dir-col-2">
           <SectionHead title="💼 Local Jobs" link="/jobs" />
-          {jobsData.map((job, i) => (
+          {jobsData.map((job: { id: string; title: string; company: string; type: string; link: string }, i: number) => (
             <div key={job.id}>
               <div style={{ marginBottom: 8, lineHeight: 1.5 }}>
                 <span style={{ display: "block", fontWeight: 700, fontSize: 13 }}>
                   <span style={{ color: "#cc0000", marginRight: 4 }}>·</span>
-                  <Link href={job.link}>{job.title}</Link>
+                  <Link href={job.link && job.link !== "#" ? job.link : "/jobs"}>{job.title}</Link>
                 </span>
-                <span style={{ display: "block", fontSize: 11, color: "#555" }}>
-                  {job.company}
-                </span>
-                <span style={{ display: "inline-block", fontSize: 10, color: "#888", border: "1px solid #ddd", padding: "1px 6px", marginTop: 2 }}>
-                  {job.type}
-                </span>
+                <span style={{ display: "block", fontSize: 11, color: "#555" }}>{job.company}</span>
+                <span style={{ display: "inline-block", fontSize: 10, color: "#888", border: "1px solid #ddd", padding: "1px 6px", marginTop: 2 }}>{job.type}</span>
               </div>
-              {i < jobsData.length - 1 && (
-                <hr style={{ border: "none", borderTop: "1px solid #eee", margin: "6px 0" }} />
-              )}
+              {i < jobsData.length - 1 && <hr style={{ border: "none", borderTop: "1px solid #eee", margin: "6px 0" }} />}
             </div>
           ))}
           <div style={{ marginTop: 8 }}>
-            <Link href="/jobs" style={{ fontSize: 11, color: "#cc0000" }}>
+            <Link href="/jobs/post" style={{ fontSize: 11, color: "#cc0000" }}>
               » Post a Job →
             </Link>
           </div>
@@ -112,27 +106,21 @@ export default async function CommunitySection() {
         {/* BUY / SELL */}
         <div className="dir-col-3">
           <SectionHead title="🏷 Buy / Sell" link="/classifieds" />
-          {classifiedsData.map((item, i) => (
+          {classifiedsData.map((item: { id: string; title: string; price: string; condition: string; link: string }, i: number) => (
             <div key={item.id}>
               <div style={{ marginBottom: 8, lineHeight: 1.5 }}>
                 <span style={{ display: "block", fontWeight: 700, fontSize: 13 }}>
                   <span style={{ color: "#cc0000", marginRight: 4 }}>·</span>
-                  <Link href={item.link}>{item.title}</Link>
+                  <Link href={item.link && item.link !== "#" ? item.link : "/classifieds"}>{item.title}</Link>
                 </span>
-                <span style={{ display: "block", fontSize: 12, color: "#111", fontWeight: 700 }}>
-                  {item.price}
-                </span>
-                <span style={{ display: "block", fontSize: 11, color: "#888" }}>
-                  {item.condition}
-                </span>
+                <span style={{ display: "block", fontSize: 12, color: "#111", fontWeight: 700 }}>{item.price}</span>
+                <span style={{ display: "block", fontSize: 11, color: "#888" }}>{item.condition}</span>
               </div>
-              {i < classifiedsData.length - 1 && (
-                <hr style={{ border: "none", borderTop: "1px solid #eee", margin: "6px 0" }} />
-              )}
+              {i < classifiedsData.length - 1 && <hr style={{ border: "none", borderTop: "1px solid #eee", margin: "6px 0" }} />}
             </div>
           ))}
           <div style={{ marginTop: 8 }}>
-            <Link href="/classifieds" style={{ fontSize: 11, color: "#cc0000" }}>
+            <Link href="/classifieds/post" style={{ fontSize: 11, color: "#cc0000" }}>
               » Post a Listing →
             </Link>
           </div>
