@@ -1,95 +1,107 @@
-import type { Metadata } from "next";
+"use client";
+import { useState } from "react";
 import Link from "next/link";
 import Masthead from "@/components/Masthead";
 import Footer from "@/components/Footer";
-import { getClassifieds } from "@/lib/data";
+import { supabase } from "@/lib/supabase";
 
-export const metadata: Metadata = {
-  title: "Buy & Sell in Benton, LA | BentonLA.com",
-  description: "Local classifieds for Benton, Louisiana. Buy and sell cars, furniture, homes, equipment and more in Bossier Parish.",
-  alternates: { canonical: "https://www.bentonla.com/classifieds" },
-};
+export default function SubmitEventPage() {
+  const [form, setForm] = useState({ title: "", date: "", location: "", description: "", link: "", email: "" });
+  const [status, setStatus] = useState<"idle" | "submitting" | "success" | "error">("idle");
 
-export const dynamic = "force-dynamic";
+  const handle = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    setForm({ ...form, [e.target.name]: e.target.value });
+  };
 
-export default async function ClassifiedsPage() {
-  const classifieds = await getClassifieds();
+  const submit = async () => {
+    if (!form.title || !form.date || !form.location) {
+      alert("Please fill in event title, date, and location.");
+      return;
+    }
+    setStatus("submitting");
+    const id = `event-${Date.now()}`;
+    const expiresAt = new Date();
+    expiresAt.setDate(expiresAt.getDate() + 30);
+    const { error } = await supabase.from("events").insert([{
+      id, title: form.title, date: form.date,
+      location: form.location, description: form.description,
+      link: form.link || "#",
+      is_active: false,
+      expires_at: expiresAt.toISOString(),
+    }]);
+    if (error) { setStatus("error"); return; }
+    setStatus("success");
+  };
+
+  const inputStyle = {
+    width: "100%", fontFamily: "'Courier Prime', monospace", fontSize: 13,
+    padding: "8px 12px", border: "1px solid #999", background: "#fff",
+    color: "#111", marginBottom: 14, boxSizing: "border-box" as const,
+  };
+  const labelStyle = {
+    display: "block", fontFamily: "'Oswald', sans-serif", fontSize: 10,
+    letterSpacing: 2, textTransform: "uppercase" as const, color: "#555", marginBottom: 4,
+  };
 
   return (
     <>
       <Masthead />
-      <main style={{ maxWidth: 720, margin: "0 auto", padding: "24px 16px 60px" }}>
-
+      <main style={{ maxWidth: 560, margin: "0 auto", padding: "28px 16px 60px" }}>
         <p style={{ fontSize: 11, color: "var(--ink-light)", marginBottom: 16, letterSpacing: 1 }}>
           <Link href="/">BENTONLA.COM</Link>
-          <span style={{ margin: "0 8px", color: "var(--ink-xlight)" }}>»</span>
-          BUY / SELL
+          <span style={{ margin: "0 8px" }}>»</span>
+          <Link href="/events">EVENTS</Link>
+          <span style={{ margin: "0 8px" }}>»</span>
+          SUBMIT
         </p>
 
-        <div style={{ borderBottom: "2px solid #111", paddingBottom: 12, marginBottom: 20, display: "flex", justifyContent: "space-between", alignItems: "flex-end", flexWrap: "wrap", gap: 10 }}>
-          <div>
-            <h1 style={{ fontFamily: "'Oswald', sans-serif", fontSize: 28, fontWeight: 700, letterSpacing: 2, textTransform: "uppercase" }}>
-              🏷 Buy / Sell
-            </h1>
-            <p style={{ fontSize: 11, color: "#888", marginTop: 6 }}>{classifieds.length} listing{classifieds.length !== 1 ? "s" : ""} · Benton, LA &amp; Bossier Parish</p>
-          </div>
-          <Link href="/classifieds/post" style={{
-            fontFamily: "'Oswald', sans-serif", fontSize: 11, fontWeight: 700,
-            letterSpacing: 2, textTransform: "uppercase", background: "#111",
-            color: "#f5f2eb", padding: "8px 16px", textDecoration: "none",
-          }}>
-            + Post a Listing
-          </Link>
+        <div style={{ borderBottom: "2px solid #111", paddingBottom: 12, marginBottom: 24 }}>
+          <h1 style={{ fontFamily: "'Oswald', sans-serif", fontSize: 26, fontWeight: 700, letterSpacing: 2, textTransform: "uppercase" }}>
+            Submit an Event
+          </h1>
+          <p style={{ fontSize: 12, color: "#888", marginTop: 6 }}>Free · Reviewed within 24 hours</p>
         </div>
 
-        {classifieds.length === 0 ? (
-          <div style={{ textAlign: "center", padding: "40px 0", color: "#888" }}>
-            <p style={{ fontSize: 14 }}>No listings yet.</p>
-            <Link href="/classifieds/post" style={{ color: "var(--red)", fontSize: 12, marginTop: 8, display: "block" }}>Post the first listing →</Link>
+        {status === "success" ? (
+          <div style={{ border: "2px solid #111", padding: 24, textAlign: "center" }}>
+            <p style={{ fontFamily: "'Oswald', sans-serif", fontSize: 20, fontWeight: 700, marginBottom: 8 }}>✓ Submitted!</p>
+            <p style={{ fontSize: 13, color: "#555", marginBottom: 16 }}>Your event is under review and will be published within 24 hours.</p>
+            <Link href="/events" style={{ fontFamily: "'Oswald', sans-serif", fontSize: 11, fontWeight: 700, letterSpacing: 2, textTransform: "uppercase", background: "#111", color: "#f5f2eb", padding: "8px 20px", textDecoration: "none", display: "inline-block" }}>
+              ← Back to Events
+            </Link>
           </div>
         ) : (
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(280px, 1fr))", gap: 14 }}>
-            {classifieds.map((item: { id: string; title: string; price: string; condition: string; description?: string; link: string; images?: string[] }) => (
-              <div key={item.id} style={{
-                border: "1px solid #bbb", padding: "14px 16px", background: "#fff", lineHeight: 1.6,
-              }}>
-                <p style={{ fontWeight: 700, fontSize: 14, marginBottom: 4 }}>
-                  <Link href={`/classifieds/${item.id}`}>{item.title}</Link>
-                </p>
-                <p style={{ fontFamily: "'Oswald', sans-serif", fontSize: 20, fontWeight: 700, color: "#111", marginBottom: 4 }}>
-                  {item.price}
-                </p>
-                <p style={{ fontSize: 11, color: "#888", marginBottom: 6 }}>{item.condition}</p>
-                {item.description && <p style={{ fontSize: 12, color: "#666", lineHeight: 1.6, marginBottom: 8 }}>{item.description}</p>}
-                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginTop: 8 }}>
-                  {item.images && item.images.length > 0 && (
-                    <span style={{ fontSize: 11, color: "#888" }}>📷 {item.images.length} photo{item.images.length !== 1 ? "s" : ""}</span>
-                  )}
-                  <Link href={`/classifieds/${item.id}`} style={{ fontSize: 11, fontFamily: "'Oswald', sans-serif", letterSpacing: 1, textTransform: "uppercase", color: "var(--blue)", marginLeft: "auto" }}>
-                    View Listing »
-                  </Link>
-                </div>
-              </div>
-            ))}
+          <div>
+            <label style={labelStyle}>Event Title * <span style={{ color: "#999" }}>({form.title.length}/100)</span></label>
+            <input name="title" value={form.title} onChange={handle} maxLength={100} placeholder="e.g. Benton Farmers Market" style={inputStyle} />
+
+            <label style={labelStyle}>Date &amp; Time *</label>
+            <input name="date" value={form.date} onChange={handle} maxLength={80} placeholder="e.g. Saturday May 10, 9AM–1PM" style={inputStyle} />
+
+            <label style={labelStyle}>Location *</label>
+            <input name="location" value={form.location} onChange={handle} maxLength={150} placeholder="e.g. Town Square, Benton, LA" style={inputStyle} />
+
+            <label style={labelStyle}>Description <span style={{ color: "#999" }}>({form.description.length}/300)</span></label>
+            <textarea name="description" value={form.description} onChange={handle} rows={3} maxLength={300} placeholder="Brief description of the event..." style={{ ...inputStyle, resize: "vertical" }} />
+
+            <label style={labelStyle}>Event Website or Link (optional)</label>
+            <input name="link" value={form.link} onChange={handle} maxLength={200} placeholder="https://..." style={inputStyle} />
+
+            <label style={labelStyle}>Your Email (for confirmation)</label>
+            <input name="email" value={form.email} onChange={handle} maxLength={100} placeholder="you@email.com" style={inputStyle} />
+
+            {status === "error" && <p style={{ color: "var(--red)", fontSize: 12, marginBottom: 12 }}>Something went wrong. Please try again.</p>}
+
+            <button onClick={submit} disabled={status === "submitting"} style={{
+              fontFamily: "'Oswald', sans-serif", fontSize: 13, fontWeight: 700,
+              letterSpacing: 2, textTransform: "uppercase", background: status === "submitting" ? "#888" : "#111",
+              color: "#f5f2eb", border: "none", padding: "12px 28px",
+              cursor: status === "submitting" ? "not-allowed" : "pointer", width: "100%",
+            }}>
+              {status === "submitting" ? "Submitting..." : "Submit Event »"}
+            </button>
           </div>
         )}
-
-        <div style={{ marginTop: 32, border: "1px dashed #bbb", padding: 20, textAlign: "center" }}>
-          <p style={{ fontFamily: "'Oswald', sans-serif", fontSize: 13, fontWeight: 700, marginBottom: 8 }}>
-            Selling something in Benton?
-          </p>
-          <p style={{ fontSize: 12, color: "#888", marginBottom: 14 }}>
-            Post your item for free and reach thousands of Benton area residents.
-          </p>
-          <Link href="/classifieds/post" style={{
-            fontFamily: "'Oswald', sans-serif", fontSize: 11, fontWeight: 700,
-            letterSpacing: 2, textTransform: "uppercase", background: "#111",
-            color: "#f5f2eb", padding: "10px 20px", textDecoration: "none", display: "inline-block",
-          }}>
-            Post a Listing »
-          </Link>
-        </div>
-
       </main>
       <Footer />
     </>
