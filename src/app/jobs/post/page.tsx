@@ -4,6 +4,7 @@ import Link from "next/link";
 import Masthead from "@/components/Masthead";
 import Footer from "@/components/Footer";
 import { supabase } from "@/lib/supabase";
+import { notify } from "@/lib/notify";
 
 export default function PostJobPage() {
   const [form, setForm] = useState({ title: "", company: "", type: "Full-Time", pay: "", description: "", link: "", email: "" });
@@ -27,6 +28,7 @@ export default function PostJobPage() {
       expires_at: expiresAt.toISOString(),
     }]);
     if (error) { setStatus("error"); return; }
+    await notify("job", { ...form });
     setStatus("success");
   };
 

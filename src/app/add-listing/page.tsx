@@ -4,6 +4,7 @@ import Link from "next/link";
 import Masthead from "@/components/Masthead";
 import Footer from "@/components/Footer";
 import { supabase } from "@/lib/supabase";
+import { notify } from "@/lib/notify";
 
 const categoryOptions = [
   "Home Services", "Plumbers", "Electricians", "HVAC", "Contractors",
@@ -41,6 +42,7 @@ export default function AddListingPage() {
       status: "pending",
     }]);
     if (error) { setStatus("error"); return; }
+    await notify("business", { ...form });
     setStatus("success");
   };
 
@@ -97,20 +99,22 @@ export default function AddListingPage() {
             <p style={{ fontSize: 12, color: "#888", marginBottom: 16 }}>
               Want to appear on the homepage and get more visibility?
             </p>
-            <Link href="/advertise" style={{
-              fontFamily: "'Oswald', sans-serif",
-              fontSize: 11,
-              fontWeight: 700,
-              letterSpacing: 2,
-              textTransform: "uppercase",
-              background: "#111",
-              color: "#f5f2eb",
-              padding: "8px 20px",
-              textDecoration: "none",
-              display: "inline-block",
-            }}>
-              See Upgrade Options »
-            </Link>
+            <div style={{ display: "flex", gap: 10, justifyContent: "center", flexWrap: "wrap" }}>
+              <a href="https://buy.stripe.com/9B69AUeqIbho8hwfjx9fW01" target="_blank" rel="noopener" style={{
+                fontFamily: "'Oswald', sans-serif", fontSize: 11, fontWeight: 700,
+                letterSpacing: 2, textTransform: "uppercase", background: "#00008b",
+                color: "#fff", padding: "8px 18px", textDecoration: "none", display: "inline-block",
+              }}>
+                Standard — $19/mo »
+              </a>
+              <a href="https://buy.stripe.com/6oU14o4Q85X4gO2fjx9fW00" target="_blank" rel="noopener" style={{
+                fontFamily: "'Oswald', sans-serif", fontSize: 11, fontWeight: 700,
+                letterSpacing: 2, textTransform: "uppercase", background: "#111",
+                color: "#f5f2eb", padding: "8px 18px", textDecoration: "none", display: "inline-block",
+              }}>
+                Featured — $49/mo »
+              </a>
+            </div>
           </div>
         ) : (
           <div>
