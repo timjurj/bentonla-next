@@ -37,12 +37,12 @@ export const categories = [
   },
   {
     slug: "dentists",
-    name: "Dentists",
+    name: "Dentists & Orthodontics",
     icon: "🦷",
-    title: "Dentists in Benton, LA",
+    title: "Dentists & Orthodontists in Benton, LA",
     metaDescription:
-      "Find dentists in Benton, Louisiana. General, cosmetic, pediatric, and orthodontic dentistry serving Bossier Parish.",
-    seoIntro: `Looking for a dentist near Benton, Louisiana? BentonLA.com lists the top dental practices serving Benton and Bossier Parish — from general family dentistry and pediatric care to cosmetic dentistry and orthodontics. Many practices are accepting new patients and accept most major insurance plans.`,
+      "Find dentists and orthodontists in Benton, Louisiana. General, cosmetic, pediatric, and orthodontic dentistry serving Bossier Parish.",
+    seoIntro: `Looking for a dentist or orthodontist near Benton, Louisiana? BentonLA.com lists the top dental and orthodontic practices serving Benton and Bossier Parish — from general family dentistry and pediatric care to cosmetic dentistry, braces, and Invisalign. Many practices are accepting new patients and accept most major insurance plans.`,
   },
   {
     slug: "daycares",

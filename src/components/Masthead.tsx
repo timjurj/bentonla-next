@@ -97,7 +97,7 @@ export default function Masthead() {
           { slug: "gyms", label: "Gyms" },
           { slug: "real-estate", label: "Real Estate" },
           { slug: "health", label: "Health" },
-          { slug: "dentists", label: "Dentists" },
+          { slug: "dentists", label: "Dentists & Ortho" },
           { slug: "automotive", label: "Auto" },
           { slug: "daycares", label: "Daycares" },
           { slug: "veterinarians", label: "Vets" },
