@@ -1,6 +1,7 @@
 "use client";
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import WeatherStrip from "@/components/WeatherStrip";
 
 export default function Masthead() {
   const [dateline, setDateline] = useState("");
@@ -72,6 +73,9 @@ export default function Masthead() {
           <span>★ BENTON&apos;S BUSINESS DIRECTORY</span>
         </div>
       </div>
+
+      {/* Weather */}
+      <WeatherStrip />
 
       {/* Category Nav */}
       <nav style={{
