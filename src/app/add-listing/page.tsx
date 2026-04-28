@@ -9,9 +9,9 @@ import { notifyAll } from "@/lib/notify";
 const categoryOptions = [
   "Home Services", "Plumbers", "Electricians", "HVAC", "Contractors",
   "Restaurants", "Shopping", "Pharmacies", "Gyms & Fitness",
-  "Real Estate", "Health & Medical", "Dentists", "Automotive",
+  "Real Estate", "Health & Medical", "Dentists & Orthodontics", "Automotive",
   "Daycares", "Veterinarians", "Hair Salons & Barbers",
-  "Insurance", "Lawyers & Legal", "Churches", "Education", "Government", "Other",
+  "Banks & Credit Unions", "Insurance", "Lawyers & Legal", "Churches", "Education", "Government", "Other",
 ];
 
 const tiers = [

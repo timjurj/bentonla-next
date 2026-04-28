@@ -102,6 +102,7 @@ export default function Masthead() {
           { slug: "daycares", label: "Daycares" },
           { slug: "veterinarians", label: "Vets" },
           { slug: "hair-salons", label: "Salons" },
+          { slug: "banks", label: "Banks" },
           { slug: "insurance", label: "Insurance" },
           { slug: "lawyers", label: "Lawyers" },
           { slug: "churches", label: "Churches" },

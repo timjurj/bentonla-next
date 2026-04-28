@@ -26,7 +26,7 @@ export const metadata: Metadata = {
 
 const col1Cats = ["home-services", "plumbers", "electricians", "hvac", "contractors"];
 const col2Cats = ["restaurants", "shopping", "pharmacies", "gyms", "health", "dentists", "automotive"];
-const col3Cats = ["real-estate", "daycares", "veterinarians", "hair-salons", "insurance", "lawyers", "churches", "education", "government"];
+const col3Cats = ["real-estate", "daycares", "veterinarians", "hair-salons", "banks", "insurance", "lawyers", "churches", "education", "government"];
 
 function ColSection({ catSlug, businesses }: { catSlug: string; businesses: Business[] }) {
   const cat = categories.find((c) => c.slug === catSlug);

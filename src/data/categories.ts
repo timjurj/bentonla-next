@@ -72,6 +72,15 @@ export const categories = [
     seoIntro: `New to Benton and looking for a great haircut? BentonLA.com lists the top hair salons and barber shops serving Benton and North Bossier Parish — for men, women, and children. Find stylists specializing in cuts, color, highlights, braids, and more near Benton, LA.`,
   },
   {
+    slug: "banks",
+    name: "Banks & Credit Unions",
+    icon: "🏦",
+    title: "Banks & Credit Unions in Benton, LA",
+    metaDescription:
+      "Find banks and credit unions in Benton, Louisiana. Local and national banking, loans, mortgages, and financial services in Bossier Parish.",
+    seoIntro: `Looking for a bank or credit union near Benton, Louisiana? BentonLA.com lists the top banking and financial institutions serving Benton and Bossier Parish — including local community banks, national banks, and credit unions offering checking, savings, loans, and mortgage services. Find a branch or ATM near Benton, LA 71006.`,
+  },
+  {
     slug: "insurance",
     name: "Insurance",
     icon: "🛡️",
