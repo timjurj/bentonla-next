@@ -6,6 +6,8 @@ import Footer from "@/components/Footer";
 import { getBusinessBySlug, getAllBusinessSlugs } from "@/lib/data";
 import { getCategoryBySlug } from "@/data/categories";
 
+export const dynamic = "force-dynamic";
+
 export async function generateStaticParams() {
   const slugs = await getAllBusinessSlugs();
   return slugs.map((slug) => ({ slug }));
