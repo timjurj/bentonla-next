@@ -4,7 +4,7 @@ import Link from "next/link";
 import Masthead from "@/components/Masthead";
 import Footer from "@/components/Footer";
 import { supabase } from "@/lib/supabase";
-import { notify, notifyAll } from "@/lib/notify";
+import { notifyAll } from "@/lib/notify";
 
 const categoryOptions = [
   "Home Services", "Plumbers", "Electricians", "HVAC", "Contractors",
@@ -14,10 +14,35 @@ const categoryOptions = [
   "Insurance", "Lawyers & Legal", "Churches", "Education", "Government", "Other",
 ];
 
+const tiers = [
+  {
+    id: "free",
+    name: "Free",
+    price: "$0",
+    description: "Listed on category page only",
+    stripeLink: null,
+  },
+  {
+    id: "standard",
+    name: "Standard",
+    price: "$19/mo",
+    description: "Homepage listing + website link + full description",
+    stripeLink: "https://buy.stripe.com/9B69AUeqIbho8hwfjx9fW01",
+  },
+  {
+    id: "featured",
+    name: "Featured",
+    price: "$49/mo",
+    description: "Top of homepage + Recommended badge + priority placement",
+    stripeLink: "https://buy.stripe.com/6oU14o4Q85X4gO2fjx9fW00",
+  },
+];
+
 export default function AddListingPage() {
   const [form, setForm] = useState({
     name: "", email: "", phone: "", website: "", address: "", category: "", description: "",
   });
+  const [selectedTier, setSelectedTier] = useState("free");
   const [status, setStatus] = useState<"idle" | "submitting" | "success" | "error">("idle");
 
   const handle = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
@@ -42,30 +67,28 @@ export default function AddListingPage() {
       status: "pending",
     }]);
     if (error) { setStatus("error"); return; }
-    await notifyAll("business", { ...form });
-    setStatus("success");
+    await notifyAll("business", { ...form, tier: selectedTier });
+
+    // Redirect to Stripe if paid tier selected
+    const tier = tiers.find(t => t.id === selectedTier);
+    if (tier?.stripeLink) {
+      // Small delay so Supabase insert completes
+      setTimeout(() => {
+        window.location.href = `${tier.stripeLink}?prefilled_email=${encodeURIComponent(form.email)}`;
+      }, 800);
+    } else {
+      setStatus("success");
+    }
   };
 
   const inputStyle = {
-    width: "100%",
-    fontFamily: "'Courier Prime', monospace",
-    fontSize: 13,
-    padding: "8px 12px",
-    border: "1px solid #999",
-    background: "#fff",
-    color: "#111",
-    marginBottom: 14,
-    boxSizing: "border-box" as const,
+    width: "100%", fontFamily: "'Courier Prime', monospace", fontSize: 13,
+    padding: "8px 12px", border: "1px solid #999", background: "#fff",
+    color: "#111", marginBottom: 14, boxSizing: "border-box" as const,
   };
-
   const labelStyle = {
-    display: "block",
-    fontFamily: "'Oswald', sans-serif",
-    fontSize: 10,
-    letterSpacing: 2,
-    textTransform: "uppercase" as const,
-    color: "#555",
-    marginBottom: 4,
+    display: "block", fontFamily: "'Oswald', sans-serif", fontSize: 10,
+    letterSpacing: 2, textTransform: "uppercase" as const, color: "#555", marginBottom: 4,
   };
 
   return (
@@ -81,74 +104,76 @@ export default function AddListingPage() {
 
         <div style={{ borderBottom: "2px solid #111", paddingBottom: 12, marginBottom: 24 }}>
           <h1 style={{ fontFamily: "'Oswald', sans-serif", fontSize: 28, fontWeight: 700, letterSpacing: 2, textTransform: "uppercase" }}>
-            Add Your Business
+            List Your Business
           </h1>
           <p style={{ fontSize: 12, color: "#888", marginTop: 6 }}>
-            Free listings are reviewed and published within 24 hours.
+            Free listings reviewed within 24 hours. Paid listings go live immediately after payment.
           </p>
         </div>
 
         {status === "success" ? (
           <div style={{ border: "2px solid #111", padding: 24, textAlign: "center" }}>
-            <p style={{ fontFamily: "'Oswald', sans-serif", fontSize: 20, fontWeight: 700, marginBottom: 8 }}>
-              ✓ Submitted!
-            </p>
+            <p style={{ fontFamily: "'Oswald', sans-serif", fontSize: 20, fontWeight: 700, marginBottom: 8 }}>✓ Submitted!</p>
             <p style={{ fontSize: 13, color: "#555", marginBottom: 16 }}>
-              Your listing is under review and will be published within 24 hours. We'll email you when it's live.
+              Your listing is under review and will be published within 24 hours. We&apos;ll email you when it&apos;s live.
             </p>
-            <p style={{ fontSize: 12, color: "#888", marginBottom: 16 }}>
-              Want to appear on the homepage and get more visibility?
-            </p>
-            <div style={{ display: "flex", gap: 10, justifyContent: "center", flexWrap: "wrap" }}>
-              <a href="https://buy.stripe.com/9B69AUeqIbho8hwfjx9fW01" target="_blank" rel="noopener" style={{
-                fontFamily: "'Oswald', sans-serif", fontSize: 11, fontWeight: 700,
-                letterSpacing: 2, textTransform: "uppercase", background: "#00008b",
-                color: "#fff", padding: "8px 18px", textDecoration: "none", display: "inline-block",
-              }}>
-                Standard — $19/mo »
-              </a>
-              <a href="https://buy.stripe.com/6oU14o4Q85X4gO2fjx9fW00" target="_blank" rel="noopener" style={{
-                fontFamily: "'Oswald', sans-serif", fontSize: 11, fontWeight: 700,
-                letterSpacing: 2, textTransform: "uppercase", background: "#111",
-                color: "#f5f2eb", padding: "8px 18px", textDecoration: "none", display: "inline-block",
-              }}>
-                Featured — $49/mo »
-              </a>
-            </div>
+            <Link href="/" style={{ fontFamily: "'Oswald', sans-serif", fontSize: 11, fontWeight: 700, letterSpacing: 2, textTransform: "uppercase", background: "#111", color: "#f5f2eb", padding: "8px 20px", textDecoration: "none", display: "inline-block" }}>
+              ← Back to BentonLA.com
+            </Link>
           </div>
         ) : (
           <div>
-            {/* Tier info */}
-            <div style={{ border: "1px solid #bbb", padding: "12px 14px", marginBottom: 24, background: "#fffef8", fontSize: 12, lineHeight: 1.8 }}>
-              <strong style={{ fontFamily: "'Oswald', sans-serif", fontSize: 12, letterSpacing: 1, textTransform: "uppercase" }}>
-                Free Listing Includes:
-              </strong>
-              <ul style={{ marginTop: 6, paddingLeft: 16, color: "#555" }}>
-                <li>Listed on your category page</li>
-                <li>Business name, phone & address</li>
-                <li>Individual business profile page</li>
-                <li>Reviewed & published within 24 hours</li>
-              </ul>
-              <p style={{ marginTop: 8, color: "#888" }}>
-                Want homepage placement?{" "}
-                <Link href="/advertise" style={{ color: "var(--red)" }}>See paid options →</Link>
-              </p>
+            {/* Tier selector */}
+            <div style={{ marginBottom: 24 }}>
+              <label style={labelStyle}>Select Your Listing Plan</label>
+              <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 10 }}>
+                {tiers.map(tier => (
+                  <button
+                    key={tier.id}
+                    onClick={() => setSelectedTier(tier.id)}
+                    style={{
+                      padding: "12px 10px",
+                      border: selectedTier === tier.id ? "2px solid #111" : "1px solid #ccc",
+                      background: selectedTier === tier.id ? "#111" : "#fff",
+                      color: selectedTier === tier.id ? "#f5f2eb" : "#111",
+                      cursor: "pointer",
+                      textAlign: "center",
+                      transition: "all 0.15s",
+                    }}
+                  >
+                    <p style={{ fontFamily: "'Oswald', sans-serif", fontSize: 13, fontWeight: 700, letterSpacing: 1, textTransform: "uppercase", marginBottom: 4 }}>
+                      {tier.name}
+                    </p>
+                    <p style={{ fontFamily: "'Oswald', sans-serif", fontSize: 16, fontWeight: 700, marginBottom: 6 }}>
+                      {tier.price}
+                    </p>
+                    <p style={{ fontSize: 10, lineHeight: 1.5, opacity: 0.8 }}>
+                      {tier.description}
+                    </p>
+                  </button>
+                ))}
+              </div>
+              {selectedTier !== "free" && (
+                <p style={{ fontSize: 11, color: "#888", marginTop: 8, textAlign: "center" }}>
+                  After submitting your info you&apos;ll be taken to Stripe to complete payment. Your listing goes live immediately.
+                </p>
+              )}
             </div>
 
-            <label style={labelStyle}>Business Name * <span style={{ color: "#999", fontSize: 10 }}>({form.name.length}/80)</span></label>
-            <input name="name" value={form.name} onChange={handle} placeholder="e.g. Gleaux Cleaning LLC" maxLength={80} style={inputStyle} />
+            <label style={labelStyle}>Business Name * <span style={{ color: "#999" }}>({form.name.length}/80)</span></label>
+            <input name="name" value={form.name} onChange={handle} maxLength={80} placeholder="e.g. Gleaux Cleaning LLC" style={inputStyle} />
 
             <label style={labelStyle}>Your Email *</label>
-            <input name="email" type="email" value={form.email} onChange={handle} placeholder="you@yourbusiness.com" maxLength={100} style={inputStyle} />
+            <input name="email" type="email" value={form.email} onChange={handle} maxLength={100} placeholder="you@yourbusiness.com" style={inputStyle} />
 
             <label style={labelStyle}>Phone Number</label>
-            <input name="phone" value={form.phone} onChange={handle} placeholder="(318) 555-0101" maxLength={20} style={inputStyle} />
+            <input name="phone" value={form.phone} onChange={handle} maxLength={20} placeholder="(318) 555-0101" style={inputStyle} />
 
             <label style={labelStyle}>Website</label>
-            <input name="website" value={form.website} onChange={handle} placeholder="https://yourbusiness.com" maxLength={200} style={inputStyle} />
+            <input name="website" value={form.website} onChange={handle} maxLength={200} placeholder="https://yourbusiness.com" style={inputStyle} />
 
             <label style={labelStyle}>Address</label>
-            <input name="address" value={form.address} onChange={handle} placeholder="123 Main St, Benton, LA 71006" maxLength={150} style={inputStyle} />
+            <input name="address" value={form.address} onChange={handle} maxLength={150} placeholder="123 Main St, Benton, LA 71006" style={inputStyle} />
 
             <label style={labelStyle}>Category *</label>
             <select name="category" value={form.category} onChange={handle} style={{ ...inputStyle, cursor: "pointer" }}>
@@ -156,7 +181,7 @@ export default function AddListingPage() {
               {categoryOptions.map(c => <option key={c} value={c}>{c}</option>)}
             </select>
 
-            <label style={labelStyle}>Tell us about your business <span style={{ color: "#999", fontSize: 10 }}>({form.description.length}/500)</span></label>
+            <label style={labelStyle}>Tell us about your business <span style={{ color: "#999" }}>({form.description.length}/500)</span></label>
             <textarea
               name="description"
               value={form.description}
@@ -169,7 +194,7 @@ export default function AddListingPage() {
 
             {status === "error" && (
               <p style={{ color: "var(--red)", fontSize: 12, marginBottom: 12 }}>
-                Something went wrong. Please try again or email us directly.
+                Something went wrong. Please try again.
               </p>
             )}
 
@@ -177,20 +202,19 @@ export default function AddListingPage() {
               onClick={submit}
               disabled={status === "submitting"}
               style={{
-                fontFamily: "'Oswald', sans-serif",
-                fontSize: 13,
-                fontWeight: 700,
-                letterSpacing: 2,
-                textTransform: "uppercase",
+                fontFamily: "'Oswald', sans-serif", fontSize: 13, fontWeight: 700,
+                letterSpacing: 2, textTransform: "uppercase",
                 background: status === "submitting" ? "#888" : "#111",
-                color: "#f5f2eb",
-                border: "none",
-                padding: "12px 28px",
-                cursor: status === "submitting" ? "not-allowed" : "pointer",
-                width: "100%",
+                color: "#f5f2eb", border: "none", padding: "12px 28px",
+                cursor: status === "submitting" ? "not-allowed" : "pointer", width: "100%",
               }}
             >
-              {status === "submitting" ? "Submitting..." : "Submit Free Listing »"}
+              {status === "submitting"
+                ? "Submitting..."
+                : selectedTier === "free"
+                  ? "Submit Free Listing »"
+                  : `Continue to Payment — ${tiers.find(t => t.id === selectedTier)?.price} »`
+              }
             </button>
 
             <p style={{ fontSize: 11, color: "#999", textAlign: "center", marginTop: 12 }}>
