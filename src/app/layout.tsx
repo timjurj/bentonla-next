@@ -60,30 +60,3 @@ export default function RootLayout({
     </html>
   );
 }
-
-
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
-  return (
-    <html lang="en">
-      <head>
-        <Script
-          src="https://www.googletagmanager.com/gtag/js?id=G-H924WKY88X"
-          strategy="afterInteractive"
-        />
-        <Script id="ga4" strategy="afterInteractive">
-          {`
-            window.dataLayer = window.dataLayer || [];
-            function gtag(){dataLayer.push(arguments);}
-            gtag('js', new Date());
-            gtag('config', 'G-H924WKY88X');
-          `}
-        </Script>
-      </head>
-      <body>{children}</body>
-    </html>
-  );
-}
