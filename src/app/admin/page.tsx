@@ -385,7 +385,6 @@ export default function AdminDashboard() {
                   </div>
                   {[
                     { label: "Business Name *", field: "name", placeholder: "e.g. Gleaux Cleaning LLC" },
-                    { label: "Category * (slug)", field: "category", placeholder: "e.g. home-services, plumbers, dentists" },
                     { label: "Tagline", field: "tagline", placeholder: "e.g. Best Plumber in Benton, LA" },
                     { label: "Phone", field: "phone", placeholder: "(318) 555-0101" },
                     { label: "Website", field: "website", placeholder: "https://yourbusiness.com" },
@@ -401,6 +400,36 @@ export default function AdminDashboard() {
                       />
                     </div>
                   ))}
+                  <label style={s.label}>Category *</label>
+                  <select
+                    value={newBiz.category}
+                    onChange={e => setNewBiz({ ...newBiz, category: e.target.value })}
+                    style={{ ...s.select, width: "100%", padding: "8px 12px", marginBottom: 14 }}
+                  >
+                    <option value="">Select a category...</option>
+                    <option value="home-services">Home Services</option>
+                    <option value="plumbers">Plumbers</option>
+                    <option value="electricians">Electricians</option>
+                    <option value="hvac">HVAC</option>
+                    <option value="contractors">Contractors</option>
+                    <option value="restaurants">Restaurants</option>
+                    <option value="shopping">Shopping & Grocery</option>
+                    <option value="pharmacies">Pharmacies</option>
+                    <option value="gyms">Gyms & Fitness</option>
+                    <option value="real-estate">Real Estate</option>
+                    <option value="health">Health & Medical</option>
+                    <option value="dentists">Dentists & Orthodontics</option>
+                    <option value="automotive">Automotive</option>
+                    <option value="daycares">Daycares</option>
+                    <option value="veterinarians">Veterinarians</option>
+                    <option value="hair-salons">Hair Salons & Barbers</option>
+                    <option value="banks">Banks & Credit Unions</option>
+                    <option value="insurance">Insurance</option>
+                    <option value="lawyers">Lawyers & Legal</option>
+                    <option value="churches">Churches</option>
+                    <option value="education">Education</option>
+                    <option value="government">Government</option>
+                  </select>
                   <label style={s.label}>Description</label>
                   <textarea
                     value={newBiz.description}
