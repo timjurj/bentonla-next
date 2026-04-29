@@ -25,6 +25,10 @@ export default function AdminDashboard() {
   const [editBiz, setEditBiz] = useState<Business | null>(null);
   const [editTarget, setEditTarget] = useState<EditTarget>(null);
   const [saving, setSaving] = useState(false);
+  const [showAddBiz, setShowAddBiz] = useState(false);
+  const [newBiz, setNewBiz] = useState({
+    name: "", category: "", tagline: "", description: "", phone: "", website: "", address: "", tier: "free",
+  });
 
   useEffect(() => { fetchAll(); }, []);
 
@@ -79,6 +83,32 @@ export default function AdminDashboard() {
   async function toggleActive(table: string, id: string, current: boolean) {
     await supabase.from(table).update({ is_active: !current }).eq("id", id);
     fetchAll();
+  }
+
+  async function addBusiness() {
+    if (!newBiz.name || !newBiz.category) { alert("Name and category are required."); return; }
+    setSaving(true);
+    const slug = newBiz.name.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");
+    const { error } = await supabase.from("businesses").insert([{
+      id: slug, slug,
+      name: newBiz.name,
+      category: newBiz.category,
+      tagline: newBiz.tagline || newBiz.category + " · Benton, LA",
+      description: newBiz.description,
+      phone: newBiz.phone || null,
+      website: newBiz.website || null,
+      address: newBiz.address,
+      tier: newBiz.tier,
+      is_new: false,
+      is_active: true,
+    }]);
+    setSaving(false);
+    if (error) alert("Error: " + error.message);
+    else {
+      setShowAddBiz(false);
+      setNewBiz({ name: "", category: "", tagline: "", description: "", phone: "", website: "", address: "", tier: "free" });
+      fetchAll();
+    }
   }
 
   async function approveItem(table: string, id: string, type: string, title: string, email?: string) {
@@ -345,7 +375,63 @@ export default function AdminDashboard() {
 
           {/* BUSINESSES */}
           {tab === "businesses" && <div>
-            <input value={search} onChange={e => setSearch(e.target.value)} placeholder="Search businesses..." style={s.input} />
+            {/* Add Business Modal */}
+            {showAddBiz && (
+              <div style={s.overlay} onClick={e => { if (e.target === e.currentTarget) setShowAddBiz(false); }}>
+                <div style={s.modal}>
+                  <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 20 }}>
+                    <h2 style={{ fontFamily: "'Oswald', sans-serif", fontSize: 16, fontWeight: 700, letterSpacing: 2, textTransform: "uppercase", color: "#f5f2eb" }}>Add Business</h2>
+                    <button onClick={() => setShowAddBiz(false)} style={{ background: "none", border: "none", color: "#666", fontSize: 18, cursor: "pointer" }}>✕</button>
+                  </div>
+                  {[
+                    { label: "Business Name *", field: "name", placeholder: "e.g. Gleaux Cleaning LLC" },
+                    { label: "Category * (slug)", field: "category", placeholder: "e.g. home-services, plumbers, dentists" },
+                    { label: "Tagline", field: "tagline", placeholder: "e.g. Best Plumber in Benton, LA" },
+                    { label: "Phone", field: "phone", placeholder: "(318) 555-0101" },
+                    { label: "Website", field: "website", placeholder: "https://yourbusiness.com" },
+                    { label: "Address", field: "address", placeholder: "123 Main St, Benton, LA 71006" },
+                  ].map(({ label, field, placeholder }) => (
+                    <div key={field}>
+                      <label style={s.label}>{label}</label>
+                      <input
+                        value={newBiz[field as keyof typeof newBiz]}
+                        onChange={e => setNewBiz({ ...newBiz, [field]: e.target.value })}
+                        placeholder={placeholder}
+                        style={s.input}
+                      />
+                    </div>
+                  ))}
+                  <label style={s.label}>Description</label>
+                  <textarea
+                    value={newBiz.description}
+                    onChange={e => setNewBiz({ ...newBiz, description: e.target.value })}
+                    rows={3}
+                    placeholder="Brief description of the business..."
+                    style={{ ...s.input, resize: "vertical" }}
+                  />
+                  <label style={s.label}>Tier</label>
+                  <select value={newBiz.tier} onChange={e => setNewBiz({ ...newBiz, tier: e.target.value })} style={{ ...s.select, width: "100%", padding: "8px 12px", marginBottom: 16 }}>
+                    <option value="free">Free</option>
+                    <option value="standard">Standard</option>
+                    <option value="premium">Premium</option>
+                    <option value="featured">Featured</option>
+                  </select>
+                  <div style={{ display: "flex", gap: 10 }}>
+                    <button onClick={addBusiness} disabled={saving} style={{ ...s.btn("#2d7a4f"), padding: "10px 20px", fontSize: 12, flex: 1, marginLeft: 0 }}>
+                      {saving ? "Adding..." : "✓ Add Business"}
+                    </button>
+                    <button onClick={() => setShowAddBiz(false)} style={{ ...s.btn("#444"), padding: "10px 20px", fontSize: 12 }}>Cancel</button>
+                  </div>
+                </div>
+              </div>
+            )}
+
+            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 14 }}>
+              <input value={search} onChange={e => setSearch(e.target.value)} placeholder="Search businesses..." style={{ ...s.input, marginBottom: 0, flex: 1, marginRight: 12 }} />
+              <button onClick={() => setShowAddBiz(true)} style={{ ...s.btn("#2d7a4f"), marginLeft: 0, padding: "8px 16px", fontSize: 11, whiteSpace: "nowrap" }}>
+                + Add Business
+              </button>
+            </div>
             {filteredBiz.map(biz => (
               <div key={biz.id} style={{ ...s.card, opacity: biz.is_active ? 1 : 0.45 }}>
                 <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: 8 }}>
